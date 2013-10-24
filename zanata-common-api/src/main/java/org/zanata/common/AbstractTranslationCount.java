@@ -114,21 +114,8 @@ public abstract class AbstractTranslationCount implements Serializable {
         return translated;
     }
 
-    public int getNotApproved() {
-        return untranslated + needReview + rejected + translated;
-    }
-
     public int getRejected() {
         return rejected;
-    }
-
-    public double getPercentTranslated() {
-        long total = getTotal();
-        if (total <= 0) {
-            return 0;
-        } else {
-            return 100d * (getTranslated() + getApproved()) / total;
-        }
     }
 
     @Override
