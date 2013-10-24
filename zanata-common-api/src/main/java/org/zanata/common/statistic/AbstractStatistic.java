@@ -21,7 +21,7 @@ public abstract class AbstractStatistic implements Serializable {
     }
 
     protected AbstractStatistic(int approved, int needReview, int untranslated,
-            int translated, int rejected) {
+        int translated, int rejected) {
         this.approved = approved;
         this.needReview = needReview;
         this.untranslated = untranslated;
@@ -39,41 +39,41 @@ public abstract class AbstractStatistic implements Serializable {
 
     public void set(ContentState state, int value) {
         switch (state) {
-        case Translated:
-            translated = value;
-            break;
-        case NeedReview:
-            needReview = value;
-            break;
-        case New:
-            untranslated = value;
-            break;
-        case Approved:
-            approved = value;
-            break;
-        case Rejected:
-            rejected = value;
-            break;
-        default:
-            throw new RuntimeException("not implemented for state "
+            case Translated:
+                translated = value;
+                break;
+            case NeedReview:
+                needReview = value;
+                break;
+            case New:
+                untranslated = value;
+                break;
+            case Approved:
+                approved = value;
+                break;
+            case Rejected:
+                rejected = value;
+                break;
+            default:
+                throw new RuntimeException("not implemented for state "
                     + state.name());
         }
     }
 
     public int get(ContentState state) {
         switch (state) {
-        case Translated:
-            return translated;
-        case NeedReview:
-            return needReview;
-        case New:
-            return untranslated;
-        case Approved:
-            return approved;
-        case Rejected:
-            return rejected;
-        default:
-            throw new RuntimeException("not implemented for state "
+            case Translated:
+                return translated;
+            case NeedReview:
+                return needReview;
+            case New:
+                return untranslated;
+            case Approved:
+                return approved;
+            case Rejected:
+                return rejected;
+            default:
+                throw new RuntimeException("not implemented for state "
                     + state.name());
         }
     }
@@ -114,10 +114,6 @@ public abstract class AbstractStatistic implements Serializable {
         return translated;
     }
 
-    public int getNotApproved() {
-        return untranslated + needReview + rejected + translated;
-    }
-
     public int getRejected() {
         return rejected;
     }
@@ -135,8 +131,8 @@ public abstract class AbstractStatistic implements Serializable {
         if (obj instanceof AbstractStatistic) {
             AbstractStatistic o = (AbstractStatistic) obj;
             return (approved == o.approved && needReview == o.needReview
-                    && untranslated == o.untranslated
-                    && translated == o.translated && rejected == o.rejected);
+                && untranslated == o.untranslated
+                && translated == o.translated && rejected == o.rejected);
         }
         return false;
     }
