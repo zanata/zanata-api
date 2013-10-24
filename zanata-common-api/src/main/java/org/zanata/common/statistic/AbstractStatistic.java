@@ -122,6 +122,10 @@ public abstract class AbstractStatistic implements Serializable {
         return rejected;
     }
 
+    public int getDraft() {
+        return needReview + rejected;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
