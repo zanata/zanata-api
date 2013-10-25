@@ -118,17 +118,33 @@ public abstract class AbstractStatistic implements Serializable {
         return rejected;
     }
 
-    public int getDraft() {
-        return needReview + rejected;
+    public double getPercentTranslated() {
+        return getPercentageWithTwoDecimal(getTranslated());
     }
 
-    public double getPercentTranslated() {
+    public double getPercentFuzzy() {
+        return getPercentageWithTwoDecimal(getNeedReview());
+    }
+
+    public double getPercentRejected() {
+        return getPercentageWithTwoDecimal(getRejected());
+    }
+
+    public double getPercentApproved() {
+        return getPercentageWithTwoDecimal(getApproved());
+    }
+
+    public double getPercentUntranslated() {
+        return getPercentageWithTwoDecimal(getUntranslated());
+    }
+
+    private double getPercentageWithTwoDecimal(double value) {
         long total = getTotal();
         if (total <= 0) {
             return 0;
-        } else {
-            return 100d * (getTranslated() + getApproved()) / total;
         }
+        double percent = 100d * value / total;
+        return Math.round(percent * 100.0) / 100.0;
     }
 
     @Override
