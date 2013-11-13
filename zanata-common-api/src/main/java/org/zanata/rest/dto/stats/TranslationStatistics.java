@@ -44,14 +44,14 @@ import org.zanata.common.TransUnitWords;
  *         href="mailto:camunoz@redhat.com">camunoz@redhat.com</a>
  */
 @XmlType(name = "translationStatistics", propOrder = { "total", "untranslated",
-        "needReview", "translated", "approved", "rejected", "translatedOnly",
-        "fuzzy", "unit", "locale", "lastTranslated" })
+    "needReview", "translated", "approved", "rejected", "translatedOnly",
+    "fuzzy", "unit", "locale", "lastTranslated" })
 @XmlRootElement(name = "translationStats")
 @JsonIgnoreProperties(value = { "percentTranslated", "percentNeedReview",
-        "percentUntranslated", "incomplete", "draft" }, ignoreUnknown = true)
+    "percentUntranslated", "incomplete", "draft" }, ignoreUnknown = true)
 @JsonPropertyOrder({ "total", "untranslated", "needReview", "translated",
-        "approved", "rejected", "readyForReview", "fuzzy", "unit", "locale",
-        "lastTranslated" })
+    "approved", "rejected", "readyForReview", "fuzzy", "unit", "locale",
+    "lastTranslated" })
 public class TranslationStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
     private StatUnit unit;
@@ -124,7 +124,7 @@ public class TranslationStatistics implements Serializable {
     @XmlTransient
     public long getDraft() {
         return translationCount.getNeedReview()
-                + translationCount.getRejected();
+            + translationCount.getRejected();
     }
 
     /**
@@ -169,7 +169,7 @@ public class TranslationStatistics implements Serializable {
     @XmlTransient
     public long getTranslatedAndApproved() {
         return translationCount.getTranslated()
-                + translationCount.getApproved();
+            + translationCount.getApproved();
     }
 
     /**
@@ -259,13 +259,13 @@ public class TranslationStatistics implements Serializable {
     public @Nullable
     Date getLastTranslatedDate() {
         return lastTranslatedDate != null ? new Date(
-                lastTranslatedDate.getTime()) : null;
+            lastTranslatedDate.getTime()) : null;
     }
 
     public void setLastTranslatedDate(@Nullable Date lastTranslatedDate) {
         this.lastTranslatedDate =
-                lastTranslatedDate != null ? new Date(
-                        lastTranslatedDate.getTime()) : null;
+            lastTranslatedDate != null ? new Date(
+                lastTranslatedDate.getTime()) : null;
     }
 
     @XmlTransient

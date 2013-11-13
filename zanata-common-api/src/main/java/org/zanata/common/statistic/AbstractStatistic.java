@@ -1,8 +1,13 @@
-package org.zanata.common;
+package org.zanata.common.statistic;
 
 import java.io.Serializable;
 
-public abstract class AbstractTranslationCount implements Serializable {
+import org.zanata.common.ContentState;
+
+/**
+ * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
+ */
+public abstract class AbstractStatistic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -12,21 +17,16 @@ public abstract class AbstractTranslationCount implements Serializable {
     private int translated;
     private int rejected;
 
-    public AbstractTranslationCount() {
+    protected AbstractStatistic() {
     }
 
-    protected AbstractTranslationCount(int approved, int needReview,
-            int untranslated, int translated, int rejected) {
+    protected AbstractStatistic(int approved, int needReview, int untranslated,
+            int translated, int rejected) {
         this.approved = approved;
         this.needReview = needReview;
         this.untranslated = untranslated;
         this.translated = translated;
         this.rejected = rejected;
-    }
-
-    protected AbstractTranslationCount(int approved, int needReview,
-            int untranslated) {
-        this(approved, needReview, untranslated, 0, 0);
     }
 
     public void increment(ContentState state, int count) {
@@ -78,7 +78,7 @@ public abstract class AbstractTranslationCount implements Serializable {
         }
     }
 
-    public void add(AbstractTranslationCount other) {
+    public void add(AbstractStatistic other) {
         this.approved += other.approved;
         this.needReview += other.needReview;
         this.untranslated += other.untranslated;
@@ -86,7 +86,7 @@ public abstract class AbstractTranslationCount implements Serializable {
         this.rejected += other.rejected;
     }
 
-    protected void set(AbstractTranslationCount other) {
+    protected void set(AbstractStatistic other) {
         this.approved = other.approved;
         this.needReview = other.needReview;
         this.untranslated = other.untranslated;
@@ -118,14 +118,43 @@ public abstract class AbstractTranslationCount implements Serializable {
         return rejected;
     }
 
+    public double getPercentTranslated() {
+        return getPercentageWithTwoDecimal(getTranslated());
+    }
+
+    public double getPercentFuzzy() {
+        return getPercentageWithTwoDecimal(getNeedReview());
+    }
+
+    public double getPercentRejected() {
+        return getPercentageWithTwoDecimal(getRejected());
+    }
+
+    public double getPercentApproved() {
+        return getPercentageWithTwoDecimal(getApproved());
+    }
+
+    public double getPercentUntranslated() {
+        return getPercentageWithTwoDecimal(getUntranslated());
+    }
+
+    private double getPercentageWithTwoDecimal(double value) {
+        long total = getTotal();
+        if (total <= 0) {
+            return 0;
+        }
+        double percent = 100d * value / total;
+        return Math.round(percent * 100.0) / 100.0;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null)
             return false;
-        if (obj instanceof AbstractTranslationCount) {
-            AbstractTranslationCount o = (AbstractTranslationCount) obj;
+        if (obj instanceof AbstractStatistic) {
+            AbstractStatistic o = (AbstractStatistic) obj;
             return (approved == o.approved && needReview == o.needReview
                     && untranslated == o.untranslated
                     && translated == o.translated && rejected == o.rejected);
