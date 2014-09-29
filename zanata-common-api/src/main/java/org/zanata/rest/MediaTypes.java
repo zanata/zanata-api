@@ -79,9 +79,13 @@ public class MediaTypes {
     public static final String APPLICATION_ZANATA_GLOSSARY_JSON =
             APPLICATION_ZANATA_GLOSSARY + JSON;
 
+    public static final String APPLICATION_ZANATA_USER =
+        APPLICATION_VND_ZANATA + ".user";
+    public static final String APPLICATION_ZANATA_USER_JSON =
+        APPLICATION_ZANATA_USER + JSON;
+
     public static final String APPLICATION_ZANATA_TRANS_UNIT =
             APPLICATION_VND_ZANATA + ".tu";
-
 
     public static final String APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON =
             APPLICATION_ZANATA_TRANS_UNIT + ".resource" + JSON;
