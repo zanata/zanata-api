@@ -33,7 +33,6 @@ public interface LocalesResource {
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_LOCALES_JSON,
             MediaType.APPLICATION_JSON })
-    @Wrapped(element = "locales", namespace = Namespaces.ZANATA_API)
     @TypeHint(Locale[].class)
     public Response get();
 }
