@@ -28,9 +28,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
+import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.stats.ContainerTranslationStatistics;
+import org.zanata.rest.dto.stats.TranslationStatistics;
 
 /**
  * @author Carlos Munoz <a
@@ -116,5 +119,27 @@ public interface StatisticsResource {
                     @PathParam("docId") String docId,
                     @QueryParam("word") @DefaultValue("false") boolean includeWordStats,
                     @QueryParam("locale") String[] locales);
+
+
+    /**
+     * Retrieves word and message statistics of document.
+     *
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - Response containing a list of statistics(word and messages). <br>
+     *         NOT FOUND(404) - If a document could not be found for the given
+     *         parameters.<br>
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     */
+    @GET
+    @Path("/project/{projectSlug}/version/{versionSlug}/doc/{docId}/locale/{localeId}")
+    @TypeHint(TranslationStatistics[].class)
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response getDocumentStatistics(
+            @PathParam("projectSlug") String projectSlug,
+            @PathParam("versionSlug") String versionSlug,
+            @PathParam("docId") String docId,
+            @PathParam("localeId") String localeId);
 
 }

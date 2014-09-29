@@ -2,6 +2,7 @@ package org.zanata.rest.service;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,7 +18,7 @@ import org.zanata.rest.dto.Locale;
  */
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public interface VersionLocalesResource {
+public interface ProjectVersionResource {
     public static final String PROJECT_PATH = "/projects/"
             + ProjectResource.PROJECT_SLUG_TEMPLATE;
 
@@ -27,7 +28,7 @@ public interface VersionLocalesResource {
     public static final String VERSION_PATH = PROJECT_PATH
             + "/versions/" + VERSION_SLUG_TEMPLATE;
 
-    public static final String SERVICE_PATH = VERSION_PATH + "/locales";
+    public static final String SERVICE_PATH = VERSION_PATH;
 
     /**
      * Retrieves a full list of locales enabled in project version.
@@ -43,6 +44,7 @@ public interface VersionLocalesResource {
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_VERSION_LOCALES_JSON,
             MediaType.APPLICATION_JSON })
+    @Path("/locales")
     @TypeHint(Locale[].class)
-    public Response get();
+    public Response getLocales();
 }

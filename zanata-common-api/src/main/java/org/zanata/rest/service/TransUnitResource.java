@@ -3,15 +3,13 @@ package org.zanata.rest.service;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
-import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
-import org.zanata.common.Namespaces;
 import org.zanata.rest.MediaTypes;
-import org.zanata.rest.dto.Locale;
 import org.zanata.rest.dto.TransUnitStatus;
 
 /**
@@ -22,10 +20,15 @@ import org.zanata.rest.dto.TransUnitStatus;
 public interface TransUnitResource {
 
     public static final String SERVICE_PATH =
-            VersionLocalesResource.VERSION_PATH;
+            ProjectVersionResource.VERSION_PATH;
 
     /**
      * Retrieves a list translation unit with status in a document.
+     *
+     * @param projectSlug Project identifier
+     * @param versionSlug Project version identifier.
+     * @param docId document identifier.
+     * @param localeId target locale
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
@@ -39,6 +42,9 @@ public interface TransUnitResource {
     @Produces({ MediaTypes.APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON,
             MediaType.APPLICATION_JSON })
     @TypeHint(TransUnitStatus[].class)
-    @Path("/r/{docId}/status/{localeId}")
-    public Response getStatus();
+    @Path("/doc/{docId}/status/{localeId}")
+    public Response getStatus(@PathParam("projectSlug") String projectSlug,
+            @PathParam("versionSlug") String versionSlug,
+            @PathParam("docId") String docId,
+            @PathParam("localeId") String localeId);
 }
