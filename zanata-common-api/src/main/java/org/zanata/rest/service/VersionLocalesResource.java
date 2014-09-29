@@ -18,11 +18,14 @@ import org.zanata.rest.dto.Locale;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public interface VersionLocalesResource {
+    public static final String PROJECT_PATH = "/projects/"
+            + ProjectResource.PROJECT_SLUG_TEMPLATE;
+
     public static final String VERSION_SLUG_TEMPLATE = "{versionSlug:"
             + RestConstants.SLUG_PATTERN + "}";
 
-    public static final String VERSION_PATH = ProjectResource.SERVICE_PATH
-            + "/iterations/i/" + VERSION_SLUG_TEMPLATE;
+    public static final String VERSION_PATH = PROJECT_PATH
+            + "/versions/" + VERSION_SLUG_TEMPLATE;
 
     public static final String SERVICE_PATH = VERSION_PATH + "/locales";
 

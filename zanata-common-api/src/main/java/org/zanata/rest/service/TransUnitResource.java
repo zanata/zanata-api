@@ -2,6 +2,7 @@ package org.zanata.rest.service;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,11 +19,10 @@ import org.zanata.rest.dto.TransUnitStatus;
  */
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public interface TransUnitStatusResource {
+public interface TransUnitResource {
 
     public static final String SERVICE_PATH =
-            VersionLocalesResource.VERSION_PATH +
-                    "/r/{docId}/status/{localeId}" ;
+            VersionLocalesResource.VERSION_PATH;
 
     /**
      * Retrieves a list translation unit with status in a document.
@@ -39,5 +39,6 @@ public interface TransUnitStatusResource {
     @Produces({ MediaTypes.APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON,
             MediaType.APPLICATION_JSON })
     @TypeHint(TransUnitStatus[].class)
-    public Response get();
+    @Path("/r/{docId}/status/{localeId}")
+    public Response getStatus();
 }
