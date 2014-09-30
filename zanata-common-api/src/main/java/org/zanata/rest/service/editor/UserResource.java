@@ -1,4 +1,4 @@
-package org.zanata.rest.service;
+package org.zanata.rest.service.editor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -32,12 +32,14 @@ public interface UserResource {
      *         the server while performing this operation.
      */
     @GET
-    @Produces({ MediaTypes.APPLICATION_ZANATA_USER_JSON })
+    @Produces({ MediaTypes.APPLICATION_ZANATA_USER_JSON,
+        MediaType.APPLICATION_JSON })
     @TypeHint(User.class)
     public Response getMyInfo();
 
     @GET
-    @Produces({ MediaTypes.APPLICATION_ZANATA_USER_JSON })
+    @Produces({ MediaTypes.APPLICATION_ZANATA_USER_JSON,
+        MediaType.APPLICATION_JSON})
     @TypeHint(User.class)
     @Path("/{username:[a-z\\d_]{3,20}}")
     public Response getUserInfo(@PathParam("username") String username);

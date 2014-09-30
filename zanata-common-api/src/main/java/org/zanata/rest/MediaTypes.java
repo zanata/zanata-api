@@ -90,6 +90,9 @@ public class MediaTypes {
     public static final String APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON =
             APPLICATION_ZANATA_TRANS_UNIT + ".resource" + JSON;
 
+    public static final String APPLICATION_ZANATA_SOURCE_JSON =
+        APPLICATION_ZANATA_TRANS_UNIT + ".source" + JSON;
+
     /**
      * Creates a format specific MediaType string given an existing media type
      *

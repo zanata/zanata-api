@@ -1,8 +1,7 @@
-package org.zanata.rest.service;
+package org.zanata.rest.service.editor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,34 +17,22 @@ import org.zanata.rest.dto.Locale;
  */
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public interface ProjectVersionResource {
-    public static final String PROJECT_PATH = "/projects/"
-            + ProjectResource.PROJECT_SLUG_TEMPLATE;
+public interface LocalesResource {
 
-    public static final String VERSION_SLUG_TEMPLATE = "{versionSlug:"
-            + RestConstants.SLUG_PATTERN + "}";
-
-    public static final String VERSION_PATH = PROJECT_PATH
-            + "/versions/" + VERSION_SLUG_TEMPLATE;
-
-    public static final String SERVICE_PATH = VERSION_PATH;
+    public static final String SERVICE_PATH = "/locales";
 
     /**
-     * Retrieves a full list of locales enabled in project version.
+     * Retrieves a full list of locales enabled in Zanata. The result is
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - Response containing a full list of locales. <br>
-     *         NOT FOUND(404) - If a Version could not be found for the given
-     *         parameters.<br>
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
     @GET
-    @Produces({ MediaTypes.APPLICATION_ZANATA_VERSION_LOCALES_JSON,
+    @Produces({ MediaTypes.APPLICATION_ZANATA_LOCALES_JSON,
             MediaType.APPLICATION_JSON })
-    @Path("/locales")
     @TypeHint(Locale[].class)
-    public Response getLocales();
-
+    public Response get();
 }
