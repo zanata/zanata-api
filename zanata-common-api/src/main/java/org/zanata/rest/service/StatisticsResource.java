@@ -124,6 +124,13 @@ public interface StatisticsResource {
     /**
      * Retrieves word and message statistics of document.
      *
+     * @param docId
+     *            The document identifier. Some document ids could have forward
+     *            slashes ('/') in them which would cause conflicts with the
+     *            browser's own url interpreter. For this reason, the supplied
+     *            id must have all its '/' characters replaced with commas
+     *            (',').
+     *
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - Response containing a list of statistics(word and messages). <br>

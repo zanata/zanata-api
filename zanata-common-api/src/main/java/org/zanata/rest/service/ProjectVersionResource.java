@@ -47,4 +47,5 @@ public interface ProjectVersionResource {
     @Path("/locales")
     @TypeHint(Locale[].class)
     public Response getLocales();
+
 }

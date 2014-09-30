@@ -25,10 +25,18 @@ public interface TransUnitResource {
     /**
      * Retrieves a list translation unit with status in a document.
      *
-     * @param projectSlug Project identifier
-     * @param versionSlug Project version identifier.
-     * @param docId document identifier.
-     * @param localeId target locale
+     * @param projectSlug
+     *            Project identifier
+     * @param versionSlug
+     *            Project version identifier.
+     * @param docId
+     *            The document identifier. Some document ids could have forward
+     *            slashes ('/') in them which would cause conflicts with the
+     *            browser's own url interpreter. For this reason, the supplied
+     *            id must have all its '/' characters replaced with commas
+     *            (',').
+     * @param localeId
+     *            target locale
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
