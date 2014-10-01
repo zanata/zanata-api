@@ -16,6 +16,9 @@ public class TransUnit extends HashMap<String, Object> implements Serializable {
 
     private static final String SOURCE = "source";
 
+    public TransUnit() {
+    }
+
     public TransUnit(TextFlow textFlow) {
         setSource(textFlow);
     }

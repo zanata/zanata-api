@@ -2,6 +2,7 @@ package org.zanata.rest.service.editor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -16,25 +17,26 @@ import org.zanata.rest.dto.resource.TransUnits;
  */
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public interface SourceResource {
+public interface TranslationResource {
 
-    public static final String SERVICE_PATH = "/source";
+    public static final String SERVICE_PATH = "/trans/{localeId}";
 
     /**
-     * Retrieves a list TextFlow in given id.
+     * Retrieves a list TextFlowTarget in given textFlow id and localeId.
      *
      * @param ids list textFlow's id (comma separated)
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
-     *         OK(200) - Response containing a full list of TextFlow. <br>
+     *         OK(200) - Response containing a full list of TextFlowTarget. <br>
      *         Forbidden(403) - If ids list is too long<br>
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
     @GET
-    @Produces({ MediaTypes.APPLICATION_ZANATA_SOURCE_JSON,
+    @Produces({ MediaTypes.APPLICATION_ZANATA_TRANSLATION_JSON,
         MediaType.APPLICATION_JSON })
     @TypeHint(TransUnits.class)
-    public Response get(@QueryParam("ids") String ids);
+    public Response get(@PathParam("localeId") String localeId,
+            @QueryParam("ids") String ids);
 }
