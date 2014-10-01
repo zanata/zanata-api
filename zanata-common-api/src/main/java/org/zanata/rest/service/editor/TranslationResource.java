@@ -2,6 +2,7 @@ package org.zanata.rest.service.editor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.resource.TransUnits;
+import org.zanata.rest.dto.resource.TranslationData;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
@@ -24,7 +26,8 @@ public interface TranslationResource {
     /**
      * Retrieves a list TextFlowTarget in given textFlow id and localeId.
      *
-     * @param ids list textFlow's id (comma separated)
+     * @param ids
+     *            list textFlow's id (comma separated)
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
@@ -35,8 +38,30 @@ public interface TranslationResource {
      */
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_TRANSLATION_JSON,
-        MediaType.APPLICATION_JSON })
+            MediaType.APPLICATION_JSON })
     @TypeHint(TransUnits.class)
     public Response get(@PathParam("localeId") String localeId,
             @QueryParam("ids") String ids);
+
+    /**
+     * Update/insert translation
+     *
+     * @param localeId
+     * @param data
+     *            information of updated translation
+     *
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - Update translation success <br>
+     *         Forbidden(403) - If user is not authorized to perform save.<br>
+     *         NOT FOUND(404) - If a TextFlow not found.<br>
+     *         Conflict(409) - If revision is not the current version on the
+     *         server INTERNAL SERVER ERROR(500) - If there is an unexpected
+     *         error in the server while performing this operation.
+     */
+    @PUT
+    @Consumes({ MediaTypes.APPLICATION_ZANATA_TRANSLATION_DATA_JSON,
+            MediaType.APPLICATION_JSON })
+    public Response put(@PathParam("localeId") String localeId,
+            TranslationData data);
 }

@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
+@Consumes({ MediaType.APPLICATION_JSON })
 public interface ProjectResource {
 
     public static final String PROJECT_SLUG_TEMPLATE = "{projectSlug:"
