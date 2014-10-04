@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.zanata.rest.MediaTypes;
-import org.zanata.rest.dto.resource.TransUnits;
-import org.zanata.rest.dto.resource.TranslationData;
+import org.zanata.rest.dto.resource.editor.TransUnits;
+import org.zanata.rest.dto.resource.editor.TranslationData;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>

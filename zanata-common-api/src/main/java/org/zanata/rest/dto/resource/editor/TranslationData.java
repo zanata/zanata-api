@@ -1,4 +1,4 @@
-package org.zanata.rest.dto.resource;
+package org.zanata.rest.dto.resource.editor;
 
 import java.io.Serializable;
 
@@ -8,8 +8,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.zanata.common.ContentState;
+import org.zanata.rest.dto.resource.TextContainer;
 
 /**
+ * Class for information on translation updates requested from client and
+ * response from server.
+ *
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @JsonPropertyOrder({ "id", "revision", "status", "content", "contents", "plural" })

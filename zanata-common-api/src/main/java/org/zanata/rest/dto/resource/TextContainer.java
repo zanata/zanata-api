@@ -47,7 +47,7 @@ import org.zanata.common.Namespaces;
  *         href="mailto:sflaniga@redhat.com">sflaniga@redhat.com</a>
  */
 @XmlTransient
-class TextContainer implements Serializable, HasContents {
+public class TextContainer implements Serializable, HasContents {
     private static final long serialVersionUID = 1L;
 
     /**

@@ -22,11 +22,11 @@ import org.zanata.rest.service.RestConstants;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public interface ProjectVersionResource {
-    public static final String VERSION_SLUG_TEMPLATE = "{versionSlug:"
+    public static final String VERSION_SLUG_TEMPLATE = "/{versionSlug:"
             + RestConstants.SLUG_PATTERN + "}";
 
     public static final String SERVICE_PATH = ProjectResource.SERVICE_PATH
-        + "/version/" + VERSION_SLUG_TEMPLATE;
+            + "/version";
 
     /**
      * Returns data for a single Project iteration.
@@ -43,7 +43,8 @@ public interface ProjectVersionResource {
     @Produces({ MediaTypes.APPLICATION_ZANATA_PROJECT_ITERATION_JSON,
             MediaType.APPLICATION_JSON })
     @TypeHint(ProjectIteration.class)
-    public Response get(@PathParam("projectSlug") String projectSlug,
+    @Path(VERSION_SLUG_TEMPLATE)
+    public Response getVersion(@PathParam("projectSlug") String projectSlug,
             @PathParam("versionSlug") String versionSlug);
 
     /**
@@ -65,7 +66,7 @@ public interface ProjectVersionResource {
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_VERSION_LOCALES_JSON,
             MediaType.APPLICATION_JSON })
-    @Path("/locales")
+    @Path(VERSION_SLUG_TEMPLATE + "/locales")
     @TypeHint(Locale[].class)
     public Response getLocales(@PathParam("projectSlug") String projectSlug,
             @PathParam("versionSlug") String versionSlug);
@@ -90,7 +91,7 @@ public interface ProjectVersionResource {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @Path("/docs")
+    @Path(VERSION_SLUG_TEMPLATE + "/docs")
     @TypeHint(ResourceMeta[].class)
     public Response getDocuments(@PathParam("projectSlug") String projectSlug,
             @PathParam("versionSlug") String versionSlug);
@@ -123,7 +124,7 @@ public interface ProjectVersionResource {
     @Produces({ MediaTypes.APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON,
             MediaType.APPLICATION_JSON })
     @TypeHint(TransUnitStatus[].class)
-    @Path("/doc/{docId}/status/{localeId}")
+    @Path(VERSION_SLUG_TEMPLATE + "/doc/{docId}/status/{localeId}")
     public Response getTransUnitStatus(
             @PathParam("projectSlug") String projectSlug,
             @PathParam("versionSlug") String versionSlug,

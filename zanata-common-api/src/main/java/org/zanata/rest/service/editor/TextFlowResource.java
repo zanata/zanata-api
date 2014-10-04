@@ -9,14 +9,14 @@ import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.zanata.rest.MediaTypes;
-import org.zanata.rest.dto.resource.TransUnits;
+import org.zanata.rest.dto.resource.editor.TransUnits;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public interface SourceResource {
+public interface TextFlowResource {
 
     public static final String SERVICE_PATH = "/source";
 
