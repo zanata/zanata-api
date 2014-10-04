@@ -24,9 +24,9 @@ import org.zanata.rest.dto.LocaleIdAdapter;
 import org.zanata.rest.dto.extensions.gettext.TextFlowExtension;
 
 @XmlType(name = "textFlowType", propOrder = { "content", "contents", "plural",
-        "extensions" })
+        "extensions", "wordCount" })
 @JsonPropertyOrder({ "id", "lang", "content", "contents", "plural",
-        "extensions" })
+        "extensions", "wordCount" })
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class TextFlow extends TextContainer implements
@@ -44,6 +44,8 @@ public class TextFlow extends TextContainer implements
 
     private Integer revision;
     private boolean plural;
+
+    private int wordCount;
 
     /**
      * This constructor sets the lang value to en-US
@@ -85,6 +87,15 @@ public class TextFlow extends TextContainer implements
         this.id = id;
         this.lang = lang;
         setContents(contentList);
+    }
+
+    @XmlElement(name = "wordCount", namespace = Namespaces.ZANATA_OLD)
+    public int getWordCount() {
+        return wordCount;
+    }
+
+    public void setWordCount(int wordCount) {
+        this.wordCount = wordCount;
     }
 
     @XmlAttribute(name = "id", required = true)

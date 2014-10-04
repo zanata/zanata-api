@@ -24,12 +24,13 @@ public class TextFlowTest {
         String json =
                 "{\n" + "    \"id\" : \"_id\",\n" + "    \"revision\" : 17,\n"
                         + "    \"lang\" : \"es-ES\",\n"
-                        + "    \"contents\" : [\"plural1\", \"plural2\"]\n"
-                        + "}";
+                        + "    \"contents\" : [\"plural1\", \"plural2\"],\n"
+                        + "\"wordCount\" : 10 }";
         TextFlow tf = om.readValue(json, TextFlow.class);
 
         TextFlow expected = new TextFlow("_id", esES, "plural1", "plural2");
         expected.setRevision(17);
+        expected.setWordCount(10);
         assertEquals(tf, expected);
     }
 
@@ -39,11 +40,13 @@ public class TextFlowTest {
         String json =
                 "{\n" + "    \"id\" : \"_id\",\n" + "    \"revision\" : 17,\n"
                         + "    \"lang\" : \"es-ES\",\n"
-                        + "    \"content\" : \"single\"\n" + "}";
+                        + "    \"content\" : \"single\",\n"
+                        + "\"wordCount\" : 10 }";
         TextFlow tf = om.readValue(json, TextFlow.class);
 
         TextFlow expected = new TextFlow("_id", esES, "single");
         expected.setRevision(17);
+        expected.setWordCount(10);
         assertEquals(tf, expected);
     }
 
@@ -54,12 +57,15 @@ public class TextFlowTest {
                         + "    <contents>\n"
                         + "        <content>abc</content>\n"
                         + "        <content>def</content>\n"
-                        + "    </contents>\n" + "</TextFlow>";
+                        + "    </contents>\n"
+                        + "    <wordCount>10</wordCount>\n"
+                        + "</TextFlow>\n";
 
         TextFlow tf = DTOUtil.toObject(xml, TextFlow.class);
 
         TextFlow expected = new TextFlow("_id", esES, "abc", "def");
         expected.setRevision(17);
+        expected.setWordCount(10);
         assertEquals(tf, expected);
     }
 
@@ -81,13 +87,16 @@ public class TextFlowTest {
             JsonMappingException, IOException {
         TextFlow tf = new TextFlow();
         tf.setContents("abc");
+        tf.setWordCount(10);
 
         String expectedXML =
                 "<TextFlow xmlns:ns2=\"http://zanata.org/namespace/api/gettext/\">\n"
                         + "    <content>abc</content>\n"
-                        + "    <plural>false</plural>\n" + "</TextFlow>";
+                        + "    <plural>false</plural>\n"
+                        + "    <wordCount>10</wordCount>\n"
+                        + "</TextFlow>";
         assertEquals(tf.toString(), expectedXML);
-        String expectedJSON = "{\"content\":\"abc\",\"plural\":false}";
+        String expectedJSON = "{\"content\":\"abc\",\"plural\":false,\"wordCount\":10}";
         assertEquals(om.writeValueAsString(tf), expectedJSON);
     }
 
@@ -97,6 +106,7 @@ public class TextFlowTest {
         TextFlow tf = new TextFlow();
         tf.setContents("abc", "def");
         tf.setPlural(true);
+        tf.setWordCount(10);
 
         String expectedXML =
                 "<TextFlow xmlns:ns2=\"http://zanata.org/namespace/api/gettext/\">\n"
@@ -104,12 +114,13 @@ public class TextFlowTest {
                         + "        <content>abc</content>\n"
                         + "        <content>def</content>\n"
                         + "    </contents>\n" + "    <plural>true</plural>\n"
+                        + "    <wordCount>10</wordCount>\n"
                         + "</TextFlow>";
 
         assertEquals(tf.toString(), expectedXML);
 
         String expectedJSON =
-                "{\"content\":\"\",\"contents\":[\"abc\",\"def\"],\"plural\":true}";
+                "{\"content\":\"\",\"contents\":[\"abc\",\"def\"],\"plural\":true,\"wordCount\":10}";
         assertEquals(om.writeValueAsString(tf), expectedJSON);
     }
 

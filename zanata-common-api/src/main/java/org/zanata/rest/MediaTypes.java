@@ -41,6 +41,11 @@ public class MediaTypes {
     public static final String APPLICATION_ZANATA_PROJECTS_JSON =
             APPLICATION_ZANATA_PROJECTS + JSON;
 
+    public static final String APPLICATION_ZANATA_LOCALES =
+            APPLICATION_VND_ZANATA + ".locales";
+    public static final String APPLICATION_ZANATA_LOCALES_JSON =
+            APPLICATION_ZANATA_LOCALES + JSON;
+
     public static final String APPLICATION_ZANATA_PROJECT_ITERATION =
             APPLICATION_VND_ZANATA + ".project.iteration";
     public static final String APPLICATION_ZANATA_PROJECT_ITERATION_XML =
@@ -62,12 +67,40 @@ public class MediaTypes {
     public static final String APPLICATION_ZANATA_VERSION_JSON =
             APPLICATION_ZANATA_VERSION + JSON;
 
+    public static final String APPLICATION_ZANATA_VERSION_LOCALES =
+            APPLICATION_VND_ZANATA + ".version.locales";
+    public static final String APPLICATION_ZANATA_VERSION_LOCALES_JSON =
+            APPLICATION_ZANATA_VERSION_LOCALES + JSON;
+
     public static final String APPLICATION_ZANATA_GLOSSARY =
             APPLICATION_VND_ZANATA + ".glossary";
     public static final String APPLICATION_ZANATA_GLOSSARY_XML =
             APPLICATION_ZANATA_GLOSSARY + XML;
     public static final String APPLICATION_ZANATA_GLOSSARY_JSON =
             APPLICATION_ZANATA_GLOSSARY + JSON;
+
+    public static final String APPLICATION_ZANATA_USER =
+        APPLICATION_VND_ZANATA + ".user";
+    public static final String APPLICATION_ZANATA_USER_JSON =
+        APPLICATION_ZANATA_USER + JSON;
+
+    public static final String APPLICATION_ZANATA_TRANSLATION_DATA_JSON =
+            APPLICATION_VND_ZANATA + ".translation.data" + JSON;
+
+    public static final String APPLICATION_ZANATA_TRANS_UNIT =
+            APPLICATION_VND_ZANATA + ".tu";
+
+    public static final String APPLICATION_ZANATA_TRANS_UNIT_RESOURCE_JSON =
+            APPLICATION_ZANATA_TRANS_UNIT + ".resource" + JSON;
+
+    public static final String APPLICATION_ZANATA_SOURCE_JSON =
+        APPLICATION_ZANATA_TRANS_UNIT + ".source" + JSON;
+
+    public static final String APPLICATION_ZANATA_TRANSLATION_JSON =
+            APPLICATION_ZANATA_TRANS_UNIT + ".translation" + JSON;
+
+    public static final String APPLICATION_ZANATA_TRANS_UNIT_JSON =
+            APPLICATION_ZANATA_TRANS_UNIT + JSON;
 
     /**
      * Creates a format specific MediaType string given an existing media type
