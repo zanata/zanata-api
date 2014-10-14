@@ -1,5 +1,8 @@
 package org.zanata.common;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "approved", "needReview", "untranslated", "translated", "rejected" })
 public final class TransUnitCount extends AbstractTranslationCount {
 
     private static final long serialVersionUID = 1L;

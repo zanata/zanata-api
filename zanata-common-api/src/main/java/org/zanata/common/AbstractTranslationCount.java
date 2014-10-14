@@ -2,6 +2,8 @@ package org.zanata.common;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public abstract class AbstractTranslationCount implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -114,6 +116,7 @@ public abstract class AbstractTranslationCount implements Serializable {
         return translated;
     }
 
+    @JsonIgnore
     public int getNotApproved() {
         return untranslated + needReview + rejected + translated;
     }
