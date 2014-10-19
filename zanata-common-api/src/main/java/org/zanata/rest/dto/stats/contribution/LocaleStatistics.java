@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.zanata.common.AbstractTranslationCount;
+import org.zanata.common.BaseTranslationCount;
 import org.zanata.common.LocaleId;
-import org.zanata.common.TransUnitCount;
-import org.zanata.rest.dto.DTOUtil;
 
 /**
  * Map that hold user contribution data
@@ -17,10 +15,10 @@ import org.zanata.rest.dto.DTOUtil;
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 public class LocaleStatistics implements Serializable,
-        Map<LocaleId, TransUnitCount> {
+        Map<LocaleId, BaseTranslationCount> {
 
-    private Map<LocaleId, TransUnitCount> localeStatsMap =
-            new HashMap<LocaleId, TransUnitCount>();
+    private Map<LocaleId, BaseTranslationCount> localeStatsMap =
+            new HashMap<LocaleId, BaseTranslationCount>();
 
     @Override
     public int size() {
@@ -43,23 +41,23 @@ public class LocaleStatistics implements Serializable,
     }
 
     @Override
-    public TransUnitCount get(Object key) {
+    public BaseTranslationCount get(Object key) {
         return localeStatsMap.get(key);
     }
 
     @Override
-    public TransUnitCount put(LocaleId key,
-            TransUnitCount value) {
+    public BaseTranslationCount put(LocaleId key,
+            BaseTranslationCount value) {
         return localeStatsMap.put(key, value);
     }
 
     @Override
-    public TransUnitCount remove(Object key) {
+    public BaseTranslationCount remove(Object key) {
         return localeStatsMap.remove(key);
     }
 
     @Override
-    public void putAll(Map<? extends LocaleId, ? extends TransUnitCount> m) {
+    public void putAll(Map<? extends LocaleId, ? extends BaseTranslationCount> m) {
         localeStatsMap.putAll(m);
     }
 
@@ -74,12 +72,12 @@ public class LocaleStatistics implements Serializable,
     }
 
     @Override
-    public Collection<TransUnitCount> values() {
+    public Collection<BaseTranslationCount> values() {
         return localeStatsMap.values();
     }
 
     @Override
-    public Set<Entry<LocaleId, TransUnitCount>> entrySet() {
+    public Set<Entry<LocaleId, BaseTranslationCount>> entrySet() {
         return localeStatsMap.entrySet();
     }
 
