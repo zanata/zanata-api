@@ -40,7 +40,7 @@ public class GenerateSamples {
 
     public GenerateSamples(PrintStream out) {
         mapper = new ObjectMapper();
-        mapper.getSerializationConfig().enable(Feature.INDENT_OUTPUT);
+        mapper.getSerializationConfig().with(Feature.INDENT_OUTPUT);
 
         this.out = new PrintStream(out) {
             @Override
