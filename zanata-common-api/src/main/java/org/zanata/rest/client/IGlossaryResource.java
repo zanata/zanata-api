@@ -5,16 +5,21 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
+import org.zanata.rest.dto.GlossaryLocaleStats;
 import org.zanata.rest.service.GlossaryResource;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path(GlossaryResource.SERVICE_PATH)
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON,
@@ -36,15 +41,39 @@ public interface IGlossaryResource extends GlossaryResource {
 
     @Override
     @GET
-    @Path("/{locale}")
+    @Path("/locales/list")
     @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
-            MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
-            MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @TypeHint(Glossary.class)
-    public ClientResponse<Glossary> get(@PathParam("locale") LocaleId locale);
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @TypeHint(GlossaryLocaleStats.class)
+    public Response getLocaleStatistic();
+
 
     @Override
-    @PUT
+    @GET
+    @Path("/src/{srcLocale}/trans/{transLocale}")
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
+        @PathParam("transLocale") LocaleId transLocale,
+        @DefaultValue("-1") @QueryParam("page") int page,
+        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @QueryParam("filter") String filter, @QueryParam("sort") String fields);
+
+    @Override
+    @GET
+    @Path("/src/{srcLocale}")
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
+        @DefaultValue("-1") @QueryParam("page") int page,
+        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @QueryParam("filter") String filter, @QueryParam("sort") String fields);
+
+    @Override
+    @POST
     public ClientResponse<String> put(Glossary glossary);
 
     @Override
@@ -52,6 +81,12 @@ public interface IGlossaryResource extends GlossaryResource {
     @Path("/{locale}")
     public ClientResponse<String> deleteGlossary(
             @PathParam("locale") LocaleId locale);
+
+    @Override
+    @DELETE
+    @Path("/{locale}/{resId}")
+    public ClientResponse<String> deleteGlossary(
+        @PathParam("locale") LocaleId locale, @PathParam("resId") String resId);
 
     @Override
     @DELETE

@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -40,10 +41,10 @@ import org.zanata.common.Namespaces;
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  *
  **/
-@XmlType(name = "glossaryEntryType", propOrder = { "sourcereference",
-        "glossaryTerms" })
-@JsonPropertyOrder({ "srcLang", "sourcereference", "glossaryTerms" })
-@JsonIgnoreProperties(ignoreUnknown = true)
+@XmlType(name = "glossaryEntryType", propOrder = { "resId", "pos",
+        "description", "sourceReference", "glossaryTerms", "termsCount" })
+@JsonPropertyOrder({ "resId", "pos", "description", "srcLang", "sourceReference", "glossaryTerms", "termsCount" })
+@JsonIgnoreProperties(value = "sourcereference", ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class GlossaryEntry implements Serializable {
     /**
@@ -51,11 +52,63 @@ public class GlossaryEntry implements Serializable {
     */
     private static final long serialVersionUID = 1685907304736580890L;
 
+    private String resId;
+
+    private String pos;
+
+    private String description;
+
     private List<GlossaryTerm> glossaryTerms;
 
     private LocaleId srcLang;
 
-    private String sourcereference;
+    private String sourceReference;
+
+    private int termsCount = 0;
+
+    public GlossaryEntry() {
+        this(null);
+    }
+
+    public GlossaryEntry(String resId) {
+        this.resId = resId;
+    }
+
+    @XmlElement(name = "resId", namespace = Namespaces.ZANATA_OLD)
+    public String getResId() {
+        return resId;
+    }
+
+    public void setResId(String resId) {
+        this.resId = resId;
+    }
+
+    @XmlElement(name = "pos", namespace = Namespaces.ZANATA_OLD)
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+
+    @XmlElement(name = "description", namespace = Namespaces.ZANATA_OLD)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @XmlElement(name = "termsCount", namespace = Namespaces.ZANATA_OLD)
+    public int getTermsCount() {
+        return termsCount;
+    }
+
+    public void setTermsCount(int termsCount) {
+        this.termsCount = termsCount;
+    }
 
     @XmlElement(name = "glossary-term", namespace = Namespaces.ZANATA_OLD)
     public List<GlossaryTerm> getGlossaryTerms() {
@@ -81,13 +134,32 @@ public class GlossaryEntry implements Serializable {
 
     @XmlElement(name = "source-reference", required = false,
             namespace = Namespaces.ZANATA_OLD)
-    public String getSourcereference() {
-        return sourcereference;
+    public String getSourceReference() {
+        return sourceReference;
     }
 
-    public void setSourcereference(String ref) {
-        this.sourcereference = ref;
+    public void setSourceReference(String ref) {
+        this.sourceReference = ref;
     }
+
+    /**
+     * See getSourceReference
+     */
+    @XmlTransient
+    @Deprecated
+    public String getSourcereference() {
+        return getSourceReference();
+    }
+
+    /**
+     * See setSourceReference
+     * @param ref
+     */
+    @Deprecated
+    public void setSourcereference(String ref) {
+        setSourceReference(ref);
+    }
+
 
     @Override
     public String toString() {
@@ -95,48 +167,44 @@ public class GlossaryEntry implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result =
-                prime
-                        * result
-                        + ((glossaryTerms == null) ? 0 : glossaryTerms
-                                .hashCode());
-        result =
-                prime
-                        * result
-                        + ((sourcereference == null) ? 0 : sourcereference
-                                .hashCode());
-        result = prime * result + ((srcLang == null) ? 0 : srcLang.hashCode());
-        return result;
-    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GlossaryEntry)) return false;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
+        GlossaryEntry that = (GlossaryEntry) o;
+
+        if (termsCount != that.termsCount) return false;
+        if (description != null ? !description.equals(that.description) :
+            that.description != null) return false;
+        if (glossaryTerms != null ? !glossaryTerms.equals(that.glossaryTerms) :
+            that.glossaryTerms != null) return false;
+        if (pos != null ? !pos.equals(that.pos) : that.pos != null)
             return false;
-        if (getClass() != obj.getClass())
+        if (resId != null ? !resId.equals(that.resId) : that.resId != null)
             return false;
-        GlossaryEntry other = (GlossaryEntry) obj;
-        if (glossaryTerms == null) {
-            if (other.glossaryTerms != null)
-                return false;
-        } else if (!glossaryTerms.equals(other.glossaryTerms))
+        if (sourceReference != null ?
+            !sourceReference.equals(that.sourceReference) :
+            that.sourceReference != null) return false;
+        if (srcLang != null ? !srcLang.equals(that.srcLang) :
+            that.srcLang != null)
             return false;
-        if (sourcereference == null) {
-            if (other.sourcereference != null)
-                return false;
-        } else if (!sourcereference.equals(other.sourcereference))
-            return false;
-        if (srcLang == null) {
-            if (other.srcLang != null)
-                return false;
-        } else if (!srcLang.equals(other.srcLang))
-            return false;
+
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = resId != null ? resId.hashCode() : 0;
+        result = 31 * result + (pos != null ? pos.hashCode() : 0);
+        result =
+            31 * result + (description != null ? description.hashCode() : 0);
+        result =
+            31 * result +
+                (glossaryTerms != null ? glossaryTerms.hashCode() : 0);
+        result = 31 * result + (srcLang != null ? srcLang.hashCode() : 0);
+        result = 31 * result +
+            (sourceReference != null ? sourceReference.hashCode() : 0);
+        result = 31 * result + termsCount;
+        return result;
+    }
 }

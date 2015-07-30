@@ -23,11 +23,14 @@ package org.zanata.rest.service;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,6 +38,7 @@ import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
+import org.zanata.rest.dto.GlossaryLocaleStats;
 
 /**
  *
@@ -66,11 +70,40 @@ public interface GlossaryResource {
     @TypeHint(Glossary.class)
     public Response getEntries();
 
+
     /**
-     * Returns Glossary entries for a single locale.
+     * Return source locales available for all glossary entries
      *
-     * @param locale
-     *            Locale for which to retrieve entries.
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - Response containing all Glossary entries in the system.
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     */
+    @GET
+    @Path("/locales/list")
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @TypeHint(GlossaryLocaleStats.class)
+    public Response getLocaleStatistic();
+
+    /**
+     * Returns Glossary entries for a single locale with paging
+     *
+     * @param srcLocale
+     *            source locale
+     * @param transLocale
+     *            Translation locale
+     * @param page
+     *            Current request page (from 1, will be ignored if negative)
+     * @param sizePerPage
+     *            Size of entry per page (from 1, will be ignored if negative)
+     * @param filter
+     *            String filter for source content
+     * @param fields
+     *            Fields to sort. Comma separated. e.g sort=desc,-part_of_speech
+     *            See {@link org.zanata.common.GlossarySortField}
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - Response containing all Glossary entries for the given
@@ -78,12 +111,42 @@ public interface GlossaryResource {
      *         error in the server while performing this operation.
      */
     @GET
-    @Path("/{locale}")
+    @Path("/src/{srcLocale}/trans/{transLocale}")
     @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
             MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
             MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @TypeHint(Glossary.class)
-    public Response get(@PathParam("locale") LocaleId locale);
+    public Response get(@PathParam("srcLocale") LocaleId srcLocale,
+        @PathParam("transLocale") LocaleId transLocale,
+        @DefaultValue("-1") @QueryParam("page") int page,
+        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @QueryParam("filter") String filter, @QueryParam("sort") String fields);
+
+    /**
+     * Returns Glossary entries for a source locale
+     *
+     * @param srcLocale
+     *            source locale
+     * @param page
+     *            Current request page (from 1, will be ignored if negative)
+     * @param sizePerPage
+     *            Size of entry per page (from 1, will be ignored if negative)
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - Response containing all Glossary entries for the given
+     *         locale. INTERNAL SERVER ERROR(500) - If there is an unexpected
+     *         error in the server while performing this operation.
+     */
+    @GET
+    @Path("/src/{srcLocale}")
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @TypeHint(Glossary.class)
+    public Response get(@PathParam("srcLocale") LocaleId srcLocale,
+        @DefaultValue("-1") @QueryParam("page") int page,
+        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     /**
      * Adds glossary entries.
@@ -98,13 +161,13 @@ public interface GlossaryResource {
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
-    @PUT
+    @POST
     public Response put(Glossary messageBody);
 
     /**
      * Delete all glossary terms with the specified locale.
      *
-     * @param targetLocale
+     * @param locale
      *            The target locale to delete glossary entries from.
      * @return The following response status codes will be returned from this
      *         operation:<br>
@@ -117,6 +180,26 @@ public interface GlossaryResource {
     @DELETE
     @Path("/{locale}")
     public Response deleteGlossary(@PathParam("locale") LocaleId locale);
+
+    /**
+     * Delete glossary which given resId and locale.
+     *
+     * @param locale
+     *          The source locale to delete glossary entries from.
+     * @param resId
+     *          resId for source glossary term
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - If the glossary entry were successfully deleted.
+     *         UNAUTHORIZED(401) - If the user does not have the proper
+     *         permissions to perform this operation.<br>
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     */
+    @DELETE
+    @Path("/{locale}/{resId}")
+    public Response deleteGlossary(@PathParam("locale") LocaleId locale,
+            @PathParam("resId") String resId);
 
     /**
      * Delete all glossary terms.
