@@ -34,9 +34,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.zanata.common.LocaleId;
-import org.zanata.rest.DocumentFileUploadForm;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
 import org.zanata.rest.dto.GlossaryLocaleStats;
@@ -97,9 +96,9 @@ public interface GlossaryResource {
      * @param transLocale
      *            Translation locale
      * @param page
-     *            Current request page (from 1, will be ignored if negative)
+     *            Current request page (default value: 1)
      * @param sizePerPage
-     *            Size of entry per page (from 1, will be ignored if negative)
+     *            Size of entry per page (default value: 500)
      * @param filter
      *            String filter for source content
      * @param fields
@@ -119,8 +118,8 @@ public interface GlossaryResource {
     @TypeHint(Glossary.class)
     public Response get(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
-        @DefaultValue("-1") @QueryParam("page") int page,
-        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("1") @QueryParam("page") int page,
+        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     /**
@@ -145,8 +144,8 @@ public interface GlossaryResource {
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @TypeHint(Glossary.class)
     public Response get(@PathParam("srcLocale") LocaleId srcLocale,
-        @DefaultValue("-1") @QueryParam("page") int page,
-        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("1") @QueryParam("page") int page,
+        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     /**
@@ -177,8 +176,8 @@ public interface GlossaryResource {
     @Produces(MediaType.APPLICATION_JSON)
     @POST
     public Response upload(@PathParam("srcLocale") LocaleId srcLocale,
-        @PathParam("transLocale") LocaleId transLocale, @MultipartForm
-        DocumentFileUploadForm form);
+        @PathParam("transLocale") LocaleId transLocale,
+        MultipartFormDataInput input);
 
     /**
      * Delete all glossary terms with the specified locale.

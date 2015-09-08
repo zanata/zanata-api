@@ -3,6 +3,7 @@ package org.zanata.rest.client;
 import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.DocumentFileUploadForm;
 import org.zanata.rest.MediaTypes;
@@ -21,6 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 
 @Path(GlossaryResource.SERVICE_PATH)
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON,
@@ -58,8 +60,8 @@ public interface IGlossaryResource extends GlossaryResource {
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
-        @DefaultValue("-1") @QueryParam("page") int page,
-        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("1") @QueryParam("page") int page,
+        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     @Override
@@ -69,8 +71,8 @@ public interface IGlossaryResource extends GlossaryResource {
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
-        @DefaultValue("-1") @QueryParam("page") int page,
-        @DefaultValue("-1") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("1") @QueryParam("page") int page,
+        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     @Override
@@ -85,7 +87,7 @@ public interface IGlossaryResource extends GlossaryResource {
     @POST
     public Response upload(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
-        @MultipartForm DocumentFileUploadForm input);
+        MultipartFormDataInput input);
 
     @Override
     @DELETE
