@@ -1,6 +1,7 @@
 package org.zanata.rest.client;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.client.ClientResponse;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.MediaTypes;
@@ -20,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 
 @Path(GlossaryResource.SERVICE_PATH)
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON,
@@ -75,6 +77,14 @@ public interface IGlossaryResource extends GlossaryResource {
     @Override
     @POST
     public ClientResponse<String> put(Glossary glossary);
+
+
+    @Override
+    @Path("/src/{srcLocale}/trans/{transLocale}/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response upload(@MultipartForm File file);
 
     @Override
     @DELETE

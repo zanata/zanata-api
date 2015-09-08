@@ -35,10 +35,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
 import org.zanata.rest.dto.GlossaryLocaleStats;
+
+import java.io.File;
 
 /**
  *
@@ -163,6 +166,19 @@ public interface GlossaryResource {
      */
     @POST
     public Response put(Glossary messageBody);
+
+
+    /**
+     * Upload glossary file
+     *
+     * @param file
+     *          Target file
+     */
+    @Path("/src/{srcLocale}/trans/{transLocale}/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response upload(@MultipartForm File file);
 
     /**
      * Delete all glossary terms with the specified locale.
