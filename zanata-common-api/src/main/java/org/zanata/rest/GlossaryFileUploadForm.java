@@ -47,6 +47,11 @@ public class GlossaryFileUploadForm implements Serializable {
     @PartType("text/plain")
     private String transLocale;
 
+    @FormParam("fileName")
+    @PartType("text/plain")
+    private String fileName;
+
+
     public InputStream getFileStream() {
         return fileStream;
     }
@@ -69,5 +74,13 @@ public class GlossaryFileUploadForm implements Serializable {
 
     public void setTransLocale(String transLocale) {
         this.transLocale = transLocale;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

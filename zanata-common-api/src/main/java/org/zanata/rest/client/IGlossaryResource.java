@@ -6,6 +6,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.DocumentFileUploadForm;
+import org.zanata.rest.GlossaryFileUploadForm;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
 import org.zanata.rest.dto.GlossaryLocaleStats;
@@ -62,7 +63,7 @@ public interface IGlossaryResource extends GlossaryResource {
     public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
         @DefaultValue("1") @QueryParam("page") int page,
-        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     @Override
@@ -73,7 +74,7 @@ public interface IGlossaryResource extends GlossaryResource {
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ClientResponse<Glossary> get(@PathParam("srcLocale") LocaleId srcLocale,
         @DefaultValue("1") @QueryParam("page") int page,
-        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     @Override
@@ -82,13 +83,11 @@ public interface IGlossaryResource extends GlossaryResource {
 
 
     @Override
-    @Path("/src/{srcLocale}/trans/{transLocale}/upload")
+    @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @POST
-    public Response upload(@PathParam("srcLocale") LocaleId srcLocale,
-        @PathParam("transLocale") LocaleId transLocale,
-        MultipartFormDataInput input);
+    public Response upload(@MultipartForm GlossaryFileUploadForm form);
 
     @Deprecated
     @Override

@@ -34,8 +34,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.zanata.common.LocaleId;
+import org.zanata.rest.GlossaryFileUploadForm;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
 import org.zanata.rest.dto.GlossaryLocaleStats;
@@ -93,16 +95,17 @@ public interface GlossaryResource {
     public Response getLocaleStatistic();
 
     /**
-     * Returns Glossary entries for a single locale with paging
+     * Returns Glossary entries for the given source and translation locale with
+     * paging
      *
      * @param srcLocale
-     *            source locale
+     *            Source locale
      * @param transLocale
      *            Translation locale
      * @param page
      *            Current request page (default value: 1)
      * @param sizePerPage
-     *            Size of entry per page (default value: 500)
+     *            Size of entry per page (default/max value: 5000)
      * @param filter
      *            String filter for source content
      * @param fields
@@ -123,18 +126,23 @@ public interface GlossaryResource {
     public Response get(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
         @DefaultValue("1") @QueryParam("page") int page,
-        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     /**
-     * Returns Glossary entries for a source locale
+     * Returns Glossary entries for the given source locale with paging
      *
      * @param srcLocale
      *            source locale
      * @param page
-     *            Current request page (from 1, will be ignored if negative)
+     *            Current request page (default value: 1)
      * @param sizePerPage
-     *            Size of entry per page (from 1, will be ignored if negative)
+     *            Size of entry per page (default/max value: 5000)
+     * @param filter
+     *            String filter for source content
+     * @param fields
+     *            Fields to sort. Comma separated. e.g sort=desc,-part_of_speech
+     *            See {@link org.zanata.common.GlossarySortField}
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - Response containing all Glossary entries for the given
@@ -149,7 +157,7 @@ public interface GlossaryResource {
     @TypeHint(Glossary.class)
     public Response get(@PathParam("srcLocale") LocaleId srcLocale,
         @DefaultValue("1") @QueryParam("page") int page,
-        @DefaultValue("500") @QueryParam("sizePerPage") int sizePerPage,
+        @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
 
     /**
@@ -170,18 +178,24 @@ public interface GlossaryResource {
 
 
     /**
-     * Upload glossary file
+     * Upload glossary file (po, cvs)
      *
-     * @param file
-     *          Target file
+     * @param form {@link org.zanata.rest.GlossaryFileUploadForm}
+     *
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         CREATED(201) - If files successfully uploaded.
+     *         UNAUTHORIZED(401) - If the user does not have the proper
+     *         permissions to perform this operation.<br>
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     *
      */
-    @Path("/src/{srcLocale}/trans/{transLocale}/upload")
+    @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @POST
-    public Response upload(@PathParam("srcLocale") LocaleId srcLocale,
-        @PathParam("transLocale") LocaleId transLocale,
-        MultipartFormDataInput input);
+    public Response upload(@MultipartForm GlossaryFileUploadForm form);
 
     /**
      * Deprecated.
