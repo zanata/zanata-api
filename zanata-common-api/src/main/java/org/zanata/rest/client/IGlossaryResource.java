@@ -34,6 +34,7 @@ import java.io.File;
 public interface IGlossaryResource extends GlossaryResource {
     public static final String SERVICE_PATH = "/glossary";
 
+    @Deprecated
     @Override
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
@@ -89,6 +90,7 @@ public interface IGlossaryResource extends GlossaryResource {
         @PathParam("transLocale") LocaleId transLocale,
         MultipartFormDataInput input);
 
+    @Deprecated
     @Override
     @DELETE
     @Path("/{locale}")
@@ -101,6 +103,7 @@ public interface IGlossaryResource extends GlossaryResource {
     public ClientResponse<String> deleteGlossary(
         @PathParam("locale") LocaleId locale, @PathParam("resId") String resId);
 
+    @Deprecated
     @Override
     @DELETE
     public ClientResponse<String> deleteGlossaries();

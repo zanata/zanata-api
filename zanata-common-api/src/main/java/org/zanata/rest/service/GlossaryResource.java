@@ -55,6 +55,9 @@ public interface GlossaryResource {
     public static final String SERVICE_PATH = "/glossary";
 
     /**
+     * Deprecated.
+     * @see #get
+     *
      * Returns all Glossary entries.
      *
      * @return The following response status codes will be returned from this
@@ -63,6 +66,7 @@ public interface GlossaryResource {
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
+    @Deprecated
     @GET
     @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
             MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
@@ -180,6 +184,9 @@ public interface GlossaryResource {
         MultipartFormDataInput input);
 
     /**
+     * Deprecated.
+     * @see #deleteGlossary
+     *
      * Delete all glossary terms with the specified locale.
      *
      * @param locale
@@ -192,11 +199,13 @@ public interface GlossaryResource {
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
+    @Deprecated
     @DELETE
     @Path("/{locale}")
     public Response deleteGlossary(@PathParam("locale") LocaleId locale);
 
     /**
+     *
      * Delete glossary which given resId and locale.
      *
      * @param locale
@@ -217,6 +226,9 @@ public interface GlossaryResource {
             @PathParam("resId") String resId);
 
     /**
+     * Deprecated.
+     * @see #deleteGlossary
+     *
      * Delete all glossary terms.
      *
      * @return The following response status codes will be returned from this
@@ -227,6 +239,7 @@ public interface GlossaryResource {
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
+    @Deprecated
     @DELETE
     public Response deleteGlossaries();
 
