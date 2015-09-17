@@ -26,6 +26,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -35,12 +36,11 @@ import javax.ws.rs.core.Response;
 
 import org.codehaus.enunciate.jaxrs.TypeHint;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.zanata.common.LocaleId;
 import org.zanata.rest.GlossaryFileUploadForm;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Glossary;
-import org.zanata.rest.dto.GlossaryLocaleStats;
+import org.zanata.rest.dto.GlossaryInfo;
 
 /**
  *
@@ -58,7 +58,7 @@ public interface GlossaryResource {
 
     /**
      * Deprecated.
-     * @see #get
+     * @see #getEntriesForLocale or #getAllEntries
      *
      * Returns all Glossary entries.
      *
@@ -87,12 +87,12 @@ public interface GlossaryResource {
      *         the server while performing this operation.
      */
     @GET
-    @Path("/locales/list")
+    @Path("/info")
     @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @TypeHint(GlossaryLocaleStats.class)
-    public Response getLocaleStatistic();
+    @TypeHint(GlossaryInfo.class)
+    public Response getInfo();
 
     /**
      * Returns Glossary entries for the given source and translation locale with
@@ -123,7 +123,7 @@ public interface GlossaryResource {
             MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
             MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @TypeHint(Glossary.class)
-    public Response get(@PathParam("srcLocale") LocaleId srcLocale,
+    public Response getEntriesForLocale(@PathParam("srcLocale") LocaleId srcLocale,
         @PathParam("transLocale") LocaleId transLocale,
         @DefaultValue("1") @QueryParam("page") int page,
         @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
@@ -155,7 +155,7 @@ public interface GlossaryResource {
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @TypeHint(Glossary.class)
-    public Response get(@PathParam("srcLocale") LocaleId srcLocale,
+    public Response getAllEntries(@PathParam("srcLocale") LocaleId srcLocale,
         @DefaultValue("1") @QueryParam("page") int page,
         @DefaultValue("5000") @QueryParam("sizePerPage") int sizePerPage,
         @QueryParam("filter") String filter, @QueryParam("sort") String fields);
@@ -164,17 +164,33 @@ public interface GlossaryResource {
      * Adds glossary entries.
      *
      * @param glossary
-     *            The Glossary entries to add.
+     *            The Glossary entries to add/update.
      * @return The following response status codes will be returned from this
      *         operation:<br>
-     *         CREATED(201) - If the glossary entries were successfully created.
+     *         OK(200) - If the glossary entries were successfully created.
+     *         UNAUTHORIZED(401) - If the user does not have the proper
+     *         permissions to perform this operation.<br>
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     */
+    @PUT
+    public Response put(Glossary messageBody);
+
+    /**
+     * Adds glossary entries.
+     *
+     * @param glossary
+     *            The Glossary entries to add/update.
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - If the glossary entries were successfully created.
      *         UNAUTHORIZED(401) - If the user does not have the proper
      *         permissions to perform this operation.<br>
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
     @POST
-    public Response put(Glossary messageBody);
+    public Response post(Glossary messageBody);
 
 
     /**
@@ -198,32 +214,9 @@ public interface GlossaryResource {
     public Response upload(@MultipartForm GlossaryFileUploadForm form);
 
     /**
-     * Deprecated.
-     * @see #deleteGlossary
-     *
-     * Delete all glossary terms with the specified locale.
-     *
-     * @param locale
-     *            The target locale to delete glossary entries from.
-     * @return The following response status codes will be returned from this
-     *         operation:<br>
-     *         OK(200) - If the glossary entries were successfully deleted.
-     *         UNAUTHORIZED(401) - If the user does not have the proper
-     *         permissions to perform this operation.<br>
-     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
-     *         the server while performing this operation.
-     */
-    @Deprecated
-    @DELETE
-    @Path("/{locale}")
-    public Response deleteGlossary(@PathParam("locale") LocaleId locale);
-
-    /**
      *
      * Delete glossary which given resId and locale.
      *
-     * @param locale
-     *          The source locale to delete glossary entries from.
      * @param resId
      *          resId for source glossary term
      * @return The following response status codes will be returned from this
@@ -235,9 +228,8 @@ public interface GlossaryResource {
      *         the server while performing this operation.
      */
     @DELETE
-    @Path("/{locale}/{resId}")
-    public Response deleteGlossary(@PathParam("locale") LocaleId locale,
-            @PathParam("resId") String resId);
+    @Path("/entries/{resId}")
+    public Response deleteEntry(@PathParam("resId") String resId);
 
     /**
      * Deprecated.
@@ -255,6 +247,6 @@ public interface GlossaryResource {
      */
     @Deprecated
     @DELETE
-    public Response deleteGlossaries();
+    public Response deleteAllEntries();
 
 }

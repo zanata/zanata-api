@@ -15,41 +15,42 @@ import org.zanata.common.Namespaces;
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
-@XmlRootElement(name = "glossaryLocaleStats")
-@XmlType(name = "glossaryLocaleStatsType", propOrder = { "srcLocale", "transLocale"})
+@XmlRootElement(name = "glossaryInfo")
+@XmlType(name = "glossaryInfoType", propOrder = { "srcLocale", "transLocale"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({ "srcLocale", "transLocale"})
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class GlossaryLocaleStats implements Serializable {
-    private GlossaryLocale srcLocale;
-    private List<GlossaryLocale> transLocale;
+public class GlossaryInfo implements Serializable {
+    private GlossaryLocaleInfo srcLocale;
+    private List<GlossaryLocaleInfo> transLocale;
 
-    public GlossaryLocaleStats() {
-        this(null, new ArrayList<GlossaryLocale>());
+    public GlossaryInfo() {
+        this(null, new ArrayList<GlossaryLocaleInfo>());
     }
 
-    public GlossaryLocaleStats(GlossaryLocale srcLocale, List<GlossaryLocale> transLocale) {
+    public GlossaryInfo(GlossaryLocaleInfo srcLocale,
+        List<GlossaryLocaleInfo> transLocale) {
         this.srcLocale = srcLocale;
         this.transLocale = transLocale;
     }
 
     @XmlElement(name = "srcLocale", required = false,
-        namespace = Namespaces.ZANATA_OLD)
-    public GlossaryLocale getSrcLocale() {
+        namespace = Namespaces.ZANATA_API)
+    public GlossaryLocaleInfo getSrcLocale() {
         return srcLocale;
     }
 
-    public void setSrcLocale(GlossaryLocale srcLocale) {
+    public void setSrcLocale(GlossaryLocaleInfo srcLocale) {
         this.srcLocale = srcLocale;
     }
 
     @XmlElement(name = "transLocale", required = false,
-        namespace = Namespaces.ZANATA_OLD)
-    public List<GlossaryLocale> getTransLocale() {
+        namespace = Namespaces.ZANATA_API)
+    public List<GlossaryLocaleInfo> getTransLocale() {
         return transLocale;
     }
 
-    public void setTransLocale(List<GlossaryLocale> transLocale) {
+    public void setTransLocale(List<GlossaryLocaleInfo> transLocale) {
         this.transLocale = transLocale;
     }
 }

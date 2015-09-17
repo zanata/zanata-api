@@ -72,7 +72,7 @@ public class Glossary implements Serializable, HasMediaType {
         this.glossaryEntries = glossaryEntries;
     }
 
-    @XmlElement(name = "totalCount", namespace = Namespaces.ZANATA_OLD)
+    @XmlElement(name = "totalCount", namespace = Namespaces.ZANATA_API)
     public int getTotalCount() {
         return totalCount;
     }

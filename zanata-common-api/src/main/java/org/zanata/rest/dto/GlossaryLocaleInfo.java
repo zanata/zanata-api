@@ -13,26 +13,26 @@ import org.zanata.common.Namespaces;
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
-@XmlRootElement(name = "glossaryLocale")
-@XmlType(name = "glossaryLocaleType", propOrder = { "locale", "count" })
+@XmlRootElement(name = "glossaryLocaleInfo")
+@XmlType(name = "glossaryLocaleInfoType", propOrder = { "locale", "numberOfTerms" })
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({ "locale", "count"})
+@JsonPropertyOrder({ "locale", "numberOfTerms"})
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class GlossaryLocale implements Serializable {
+public class GlossaryLocaleInfo implements Serializable {
     private LocaleDetails locale;
-    private int count;
+    private int numberOfTerms;
 
-    public GlossaryLocale() {
+    public GlossaryLocaleInfo() {
         this(null, 0);
     }
 
-    public GlossaryLocale(LocaleDetails locale, int count) {
+    public GlossaryLocaleInfo(LocaleDetails locale, int numberOfTerms) {
         this.locale = locale;
-        this.count = count;
+        this.numberOfTerms = numberOfTerms;
     }
 
     @XmlElement(name = "locale", required = false,
-        namespace = Namespaces.ZANATA_OLD)
+        namespace = Namespaces.ZANATA_API)
     public LocaleDetails getLocale() {
         return locale;
     }
@@ -41,13 +41,13 @@ public class GlossaryLocale implements Serializable {
         this.locale = locale;
     }
 
-    @XmlElement(name = "count", required = false,
-        namespace = Namespaces.ZANATA_OLD)
-    public int getCount() {
-        return count;
+    @XmlElement(name = "numberOfTerms", required = false,
+        namespace = Namespaces.ZANATA_API)
+    public int getNumberOfTerms() {
+        return numberOfTerms;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setNumberOfTerms(int numberOfTerms) {
+        this.numberOfTerms = numberOfTerms;
     }
 }

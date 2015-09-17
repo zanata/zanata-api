@@ -22,20 +22,33 @@
 package org.zanata.common;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Alex Eng <a href="aeng@redhat.com">aeng@redhat.com</a>
  */
-public enum GlossarySortField implements Serializable {
-    src_content("term.content", true),
-    part_of_speech("term.glossaryEntry.pos", true),
-    desc("term.glossaryEntry.description", true),
-    trans_count("term.glossaryEntry.glossaryTerms.size", true);
+public class GlossarySortField implements Serializable {
+
+    public static final String SRC_CONTENT = "src_content";
+    public static final String PART_OF_SPEECH = "part_of_speech";
+    public static final String DESCRIPTION = "desc";
+    public static final String TRANS_COUNT = "trans_count";
+
+    private static final Map<String, String> fieldMap;
+    static
+    {
+        fieldMap = new HashMap<String, String>();
+        fieldMap.put(SRC_CONTENT, "term.content");
+        fieldMap.put(PART_OF_SPEECH, "term.glossaryEntry.pos");
+        fieldMap.put(DESCRIPTION, "term.glossaryEntry.description");
+        fieldMap.put(TRANS_COUNT, "term.glossaryEntry.glossaryTerms.size");
+    }
 
     private final String entityField;
-    private boolean ascending;
+    private final boolean ascending;
 
-    GlossarySortField(String entityField, boolean ascending) {
+    public GlossarySortField(String entityField, boolean ascending) {
         this.entityField = entityField;
         this.ascending = ascending;
     }
@@ -48,10 +61,6 @@ public enum GlossarySortField implements Serializable {
         return ascending;
     }
 
-    public void setAscending(boolean ascending) {
-        this.ascending = ascending;
-    }
-
     public static final GlossarySortField getByField(String field) {
         if(field == null || field.length() <= 0) {
             throw new IllegalArgumentException(field);
@@ -61,11 +70,9 @@ public enum GlossarySortField implements Serializable {
         String processedField =
             field.startsWith("-") ? field.substring(1) : field;
 
-        for(GlossarySortField sortField: GlossarySortField.values()) {
-            if(sortField.name().equals(processedField)) {
-                sortField.setAscending(isAscending);
-                return sortField;
-            }
+        if (fieldMap.containsKey(processedField)) {
+            return new GlossarySortField(fieldMap.get(processedField),
+                    isAscending);
         }
         return null;
     }

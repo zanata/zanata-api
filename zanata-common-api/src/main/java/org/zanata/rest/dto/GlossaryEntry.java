@@ -101,7 +101,7 @@ public class GlossaryEntry implements Serializable {
         this.description = description;
     }
 
-    @XmlElement(name = "termsCount", namespace = Namespaces.ZANATA_OLD)
+    @XmlElement(name = "termsCount", namespace = Namespaces.ZANATA_API)
     public int getTermsCount() {
         return termsCount;
     }

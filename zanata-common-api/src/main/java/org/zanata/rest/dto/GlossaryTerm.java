@@ -21,14 +21,19 @@
 package org.zanata.rest.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -41,9 +46,9 @@ import org.zanata.common.Namespaces;
  *
  **/
 
-@XmlType(name = "glossaryTermType", propOrder = { "comment", "content", "locale", "lastModifiedDate", "lastModifiedBy"})
+@XmlType(name = "glossaryTermType", propOrder = {"comment", "content", "locale", "lastModifiedDate", "lastModifiedBy"})
 @JsonPropertyOrder({ "content", "comment", "locale", "lastModifiedDate", "lastModifiedBy" })
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = "comments", ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class GlossaryTerm implements Serializable {
     /**
@@ -85,7 +90,26 @@ public class GlossaryTerm implements Serializable {
         this.content = content;
     }
 
-    @XmlElement(name = "comment", namespace = Namespaces.ZANATA_OLD)
+    /**
+     * See {@link #getComment}
+     */
+    @XmlTransient
+    @Deprecated
+    public List<String> getComments() {
+        return new ArrayList<String>() {{
+            add(getComment());
+        }};
+    }
+
+    /**
+     * See {@link #setComment}
+     */
+    @Deprecated
+    public void setComments(List<String> comments) {
+        setComment(StringUtils.join(comments, ","));
+    }
+        
+    @XmlElement(name = "comment", namespace = Namespaces.ZANATA_API)
     public String getComment() {
         return comment;
     }
@@ -95,7 +119,7 @@ public class GlossaryTerm implements Serializable {
     }
 
     @XmlElement(name = "lastModifiedBy", required = false,
-        namespace = Namespaces.ZANATA_OLD)
+        namespace = Namespaces.ZANATA_API)
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -105,7 +129,7 @@ public class GlossaryTerm implements Serializable {
     }
 
     @XmlElement(name = "lastModifiedDate", required = false,
-        namespace = Namespaces.ZANATA_OLD)
+        namespace = Namespaces.ZANATA_API)
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
