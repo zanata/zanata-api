@@ -35,14 +35,14 @@ public class GlossarySortFieldTest {
 
     @Test
     public void getByFieldTest() {
-        String field = "desc";
+        String field = "src_content";
         GlossarySortField sortField = GlossarySortField.getByField(field);
         assertThat(sortField, notNullValue());
     }
 
     @Test
     public void getByFieldTest2() {
-        String field = "-desc";
+        String field = "-src_content";
         GlossarySortField sortField = GlossarySortField.getByField(field);
         assertThat(sortField, notNullValue());
         assertThat(sortField.isAscending(), is(false));

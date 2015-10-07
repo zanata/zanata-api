@@ -32,7 +32,6 @@ public class GlossarySortField implements Serializable {
 
     public static final String SRC_CONTENT = "src_content";
     public static final String PART_OF_SPEECH = "part_of_speech";
-    public static final String DESCRIPTION = "desc";
     public static final String TRANS_COUNT = "trans_count";
 
     private static final Map<String, String> fieldMap;
@@ -41,7 +40,6 @@ public class GlossarySortField implements Serializable {
         fieldMap = new HashMap<String, String>();
         fieldMap.put(SRC_CONTENT, "term.content");
         fieldMap.put(PART_OF_SPEECH, "term.glossaryEntry.pos");
-        fieldMap.put(DESCRIPTION, "term.glossaryEntry.description");
         fieldMap.put(TRANS_COUNT, "term.glossaryEntry.glossaryTerms.size");
     }
 
@@ -62,7 +60,7 @@ public class GlossarySortField implements Serializable {
     }
 
     public static final GlossarySortField getByField(String field) {
-        if(field == null || field.length() <= 0) {
+        if (field == null || field.length() <= 0) {
             throw new IllegalArgumentException(field);
         }
 

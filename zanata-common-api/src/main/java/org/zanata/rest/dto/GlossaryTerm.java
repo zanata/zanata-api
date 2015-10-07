@@ -96,9 +96,11 @@ public class GlossaryTerm implements Serializable {
     @XmlTransient
     @Deprecated
     public List<String> getComments() {
-        return new ArrayList<String>() {{
-            add(getComment());
-        }};
+        return new ArrayList<String>() {
+            {
+                add(getComment());
+            }
+        };
     }
 
     /**
@@ -108,7 +110,7 @@ public class GlossaryTerm implements Serializable {
     public void setComments(List<String> comments) {
         setComment(StringUtils.join(comments, ","));
     }
-        
+
     @XmlElement(name = "comment", namespace = Namespaces.ZANATA_API)
     public String getComment() {
         return comment;

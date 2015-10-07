@@ -26,33 +26,33 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.zanata.common.LocaleId;
 import org.zanata.common.Namespaces;
+import org.zanata.rest.MediaTypes;
 
 /**
  *
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  *
  **/
-@XmlType(name = "glossaryEntryType", propOrder = { "resId", "pos",
+@XmlRootElement(name = "glossaryEntry")
+@XmlType(name = "glossaryEntryType", propOrder = { "contentHash", "pos",
         "description", "sourceReference", "glossaryTerms", "termsCount" })
-@JsonPropertyOrder({ "resId", "pos", "description", "srcLang", "sourceReference", "glossaryTerms", "termsCount" })
-@JsonIgnoreProperties(value = "sourcereference", ignoreUnknown = true)
+@JsonPropertyOrder({ "contentHash", "pos", "description", "srcLang", "sourceReference", "glossaryTerms", "termsCount" })
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class GlossaryEntry implements Serializable {
+public class GlossaryEntry implements Serializable, HasMediaType {
     /**
     *
     */
     private static final long serialVersionUID = 1685907304736580890L;
 
-    private String resId;
+    private String contentHash;
 
     private String pos;
 
@@ -70,17 +70,17 @@ public class GlossaryEntry implements Serializable {
         this(null);
     }
 
-    public GlossaryEntry(String resId) {
-        this.resId = resId;
+    public GlossaryEntry(String contentHash) {
+        this.contentHash = contentHash;
     }
 
-    @XmlElement(name = "resId", namespace = Namespaces.ZANATA_OLD)
-    public String getResId() {
-        return resId;
+    @XmlElement(name = "contentHash", namespace = Namespaces.ZANATA_OLD)
+    public String getContentHash() {
+        return contentHash;
     }
 
-    public void setResId(String resId) {
-        this.resId = resId;
+    public void setContentHash(String contentHash) {
+        this.contentHash = contentHash;
     }
 
     @XmlElement(name = "pos", namespace = Namespaces.ZANATA_OLD)
@@ -142,25 +142,6 @@ public class GlossaryEntry implements Serializable {
         this.sourceReference = ref;
     }
 
-    /**
-     * See getSourceReference
-     */
-    @XmlTransient
-    @Deprecated
-    public String getSourcereference() {
-        return getSourceReference();
-    }
-
-    /**
-     * See setSourceReference
-     * @param ref
-     */
-    @Deprecated
-    public void setSourcereference(String ref) {
-        setSourceReference(ref);
-    }
-
-
     @Override
     public String toString() {
         return DTOUtil.toXML(this);
@@ -180,8 +161,6 @@ public class GlossaryEntry implements Serializable {
             that.glossaryTerms != null) return false;
         if (pos != null ? !pos.equals(that.pos) : that.pos != null)
             return false;
-        if (resId != null ? !resId.equals(that.resId) : that.resId != null)
-            return false;
         if (sourceReference != null ?
             !sourceReference.equals(that.sourceReference) :
             that.sourceReference != null) return false;
@@ -194,7 +173,7 @@ public class GlossaryEntry implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = resId != null ? resId.hashCode() : 0;
+        int result = contentHash != null ? contentHash.hashCode() : 0;
         result = 31 * result + (pos != null ? pos.hashCode() : 0);
         result =
             31 * result + (description != null ? description.hashCode() : 0);
@@ -206,5 +185,10 @@ public class GlossaryEntry implements Serializable {
             (sourceReference != null ? sourceReference.hashCode() : 0);
         result = 31 * result + termsCount;
         return result;
+    }
+
+    @Override
+    public String getMediaType(MediaTypes.Format format) {
+        return MediaTypes.APPLICATION_ZANATA_GLOSSARY + format;
     }
 }
