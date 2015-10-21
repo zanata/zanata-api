@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.zanata.common.Namespaces;
@@ -61,6 +62,7 @@ public class Glossary implements Serializable, HasMediaType {
     @XmlElementWrapper(name = "glossary-entries",
             namespace = Namespaces.ZANATA_OLD)
     @XmlElement(name = "glossary-entry", namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("glossaryEntries")
     public List<GlossaryEntry> getGlossaryEntries() {
         if (glossaryEntries == null) {
             glossaryEntries = new ArrayList<GlossaryEntry>();

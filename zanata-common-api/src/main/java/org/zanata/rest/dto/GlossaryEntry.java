@@ -30,6 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.zanata.common.LocaleId;
@@ -42,9 +44,9 @@ import org.zanata.rest.MediaTypes;
  *
  **/
 @XmlRootElement(name = "glossaryEntry")
-@XmlType(name = "glossaryEntryType", propOrder = { "contentHash", "pos",
+@XmlType(name = "glossaryEntryType", propOrder = { "id", "pos",
         "description", "sourceReference", "glossaryTerms", "termsCount" })
-@JsonPropertyOrder({ "contentHash", "pos", "description", "srcLang", "sourceReference", "glossaryTerms", "termsCount" })
+@JsonPropertyOrder({ "id", "pos", "description", "srcLang", "sourceReference", "glossaryTerms", "termsCount" })
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class GlossaryEntry implements Serializable, HasMediaType {
     /**
@@ -52,7 +54,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
     */
     private static final long serialVersionUID = 1685907304736580890L;
 
-    private String contentHash;
+    private Long id;
 
     private String pos;
 
@@ -70,20 +72,22 @@ public class GlossaryEntry implements Serializable, HasMediaType {
         this(null);
     }
 
-    public GlossaryEntry(String contentHash) {
-        this.contentHash = contentHash;
+    public GlossaryEntry(Long id) {
+        this.id = id;
     }
 
-    @XmlElement(name = "contentHash", namespace = Namespaces.ZANATA_OLD)
-    public String getContentHash() {
-        return contentHash;
+    @XmlElement(name = "id", namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("id")
+    public Long getId() {
+        return id;
     }
 
-    public void setContentHash(String contentHash) {
-        this.contentHash = contentHash;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @XmlElement(name = "pos", namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("pos")
     public String getPos() {
         return pos;
     }
@@ -93,6 +97,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
     }
 
     @XmlElement(name = "description", namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("description")
     public String getDescription() {
         return description;
     }
@@ -102,6 +107,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
     }
 
     @XmlElement(name = "termsCount", namespace = Namespaces.ZANATA_API)
+    @JsonProperty("termsCount")
     public int getTermsCount() {
         return termsCount;
     }
@@ -111,6 +117,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
     }
 
     @XmlElement(name = "glossary-term", namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("glossaryTerms")
     public List<GlossaryTerm> getGlossaryTerms() {
         if (glossaryTerms == null) {
             glossaryTerms = new ArrayList<GlossaryTerm>();
@@ -124,6 +131,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
 
     @XmlAttribute(name = "src-lang")
     @XmlJavaTypeAdapter(type = LocaleId.class, value = LocaleIdAdapter.class)
+    @JsonProperty("srcLang")
     public LocaleId getSrcLang() {
         return srcLang;
     }
@@ -134,6 +142,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
 
     @XmlElement(name = "source-reference", required = false,
             namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("sourceReference")
     public String getSourceReference() {
         return sourceReference;
     }
@@ -173,7 +182,7 @@ public class GlossaryEntry implements Serializable, HasMediaType {
 
     @Override
     public int hashCode() {
-        int result = contentHash != null ? contentHash.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (pos != null ? pos.hashCode() : 0);
         result =
             31 * result + (description != null ? description.hashCode() : 0);

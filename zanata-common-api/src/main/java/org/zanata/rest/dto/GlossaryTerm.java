@@ -21,20 +21,16 @@
 package org.zanata.rest.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.zanata.common.LocaleId;
@@ -48,7 +44,7 @@ import org.zanata.common.Namespaces;
 
 @XmlType(name = "glossaryTermType", propOrder = {"comment", "content", "locale", "lastModifiedDate", "lastModifiedBy"})
 @JsonPropertyOrder({ "content", "comment", "locale", "lastModifiedDate", "lastModifiedBy" })
-@JsonIgnoreProperties(value = "comments", ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class GlossaryTerm implements Serializable {
     /**
@@ -72,6 +68,7 @@ public class GlossaryTerm implements Serializable {
 
     @XmlAttribute(name = "lang", namespace = Namespaces.XML)
     @XmlJavaTypeAdapter(type = LocaleId.class, value = LocaleIdAdapter.class)
+    @JsonProperty("locale")
     public LocaleId getLocale() {
         return locale;
     }
@@ -82,36 +79,17 @@ public class GlossaryTerm implements Serializable {
 
     @XmlElement(name = "content", required = false,
             namespace = Namespaces.ZANATA_OLD)
+    @JsonProperty("content")
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    /**
-     * See {@link #getComment}
-     */
-    @XmlTransient
-    @Deprecated
-    public List<String> getComments() {
-        return new ArrayList<String>() {
-            {
-                add(getComment());
-            }
-        };
-    }
-
-    /**
-     * See {@link #setComment}
-     */
-    @Deprecated
-    public void setComments(List<String> comments) {
-        setComment(StringUtils.join(comments, ","));
-    }
+    }    
 
     @XmlElement(name = "comment", namespace = Namespaces.ZANATA_API)
+    @JsonProperty("comment")
     public String getComment() {
         return comment;
     }
@@ -122,6 +100,7 @@ public class GlossaryTerm implements Serializable {
 
     @XmlElement(name = "lastModifiedBy", required = false,
         namespace = Namespaces.ZANATA_API)
+    @JsonProperty("lastModifiedBy")
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -132,6 +111,7 @@ public class GlossaryTerm implements Serializable {
 
     @XmlElement(name = "lastModifiedDate", required = false,
         namespace = Namespaces.ZANATA_API)
+    @JsonProperty("lastModifiedDate")
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }

@@ -33,6 +33,7 @@ public class GlossarySortField implements Serializable {
     public static final String SRC_CONTENT = "src_content";
     public static final String PART_OF_SPEECH = "part_of_speech";
     public static final String TRANS_COUNT = "trans_count";
+    public static final String DESCRIPTION = "desc";
 
     private static final Map<String, String> fieldMap;
     static
@@ -40,7 +41,8 @@ public class GlossarySortField implements Serializable {
         fieldMap = new HashMap<String, String>();
         fieldMap.put(SRC_CONTENT, "term.content");
         fieldMap.put(PART_OF_SPEECH, "term.glossaryEntry.pos");
-        fieldMap.put(TRANS_COUNT, "term.glossaryEntry.glossaryTerms.size");
+        fieldMap.put(TRANS_COUNT, "size(term.glossaryEntry.glossaryTerms)");
+        fieldMap.put(DESCRIPTION, "term.glossaryEntry.description");
     }
 
     private final String entityField;

@@ -41,6 +41,7 @@ import org.zanata.rest.GlossaryFileUploadForm;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.GlossaryEntry;
 import org.zanata.rest.dto.GlossaryInfo;
+import org.zanata.rest.dto.GlossaryResults;
 import org.zanata.rest.dto.ResultList;
 
 /**
@@ -135,6 +136,7 @@ public interface GlossaryResource {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/entries")
+    @TypeHint(GlossaryResults.class)
     public Response post(List<GlossaryEntry> glossaryEntries);
 
     /**
@@ -154,14 +156,15 @@ public interface GlossaryResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @POST
+    @TypeHint(GlossaryResults.class)
     public Response upload(@MultipartForm GlossaryFileUploadForm form);
 
     /**
      *
-     * Delete glossary which given resId and locale.
+     * Delete glossary which given id.
      *
-     * @param hash
-     *          hash for source glossary term
+     * @param id
+     *          id for source glossary term
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - If the glossary entry were successfully deleted.
@@ -172,8 +175,9 @@ public interface GlossaryResource {
      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/entries/{hash}")
-    public Response deleteEntry(@PathParam("hash") String hash);
+    @Path("/entries/{id}")
+    @TypeHint(GlossaryEntry.class)
+    public Response deleteEntry(@PathParam("id") Long id);
 
     /**
      * Delete all glossary terms.
