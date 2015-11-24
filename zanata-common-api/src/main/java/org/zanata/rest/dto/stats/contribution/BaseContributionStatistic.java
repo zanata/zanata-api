@@ -1,6 +1,8 @@
 package org.zanata.rest.dto.stats.contribution;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.zanata.common.BaseTranslationCount;
 import org.zanata.common.ContentState;
 
@@ -10,6 +12,7 @@ import java.io.Serializable;
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder({ "approved", "rejected", "translated", "needReview" })
 public class BaseContributionStatistic implements Serializable {
 
     private int approved;
@@ -64,18 +67,22 @@ public class BaseContributionStatistic implements Serializable {
         }
     }
 
+    @JsonProperty("approved")
     public int getApproved() {
         return approved;
     }
 
+    @JsonProperty("needReview")
     public int getNeedReview() {
         return needReview;
     }
 
+    @JsonProperty("translated")
     public int getTranslated() {
         return translated;
     }
 
+    @JsonProperty("rejected")
     public int getRejected() {
         return rejected;
     }
