@@ -3,38 +3,27 @@ package org.zanata.rest.dto.stats.contribution;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.zanata.common.LocaleId;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-@JsonPropertyOrder({ "locale", "translation-stats", "review-stats" })
+@JsonPropertyOrder({ "translation-stats", "review-stats" })
 public class LocaleStatistics {
-    public LocaleStatistics() {
-    }
-
-    public LocaleStatistics(LocaleId locale) {
-        this(locale, null, null);
-    }
-
-    public LocaleStatistics(LocaleId locale,
-            BaseContributionStatistic translationStats,
-            BaseContributionStatistic reviewStats) {
-        this.locale = locale;
-        this.translationStats = translationStats;
-        this.reviewStats = reviewStats;
-    }
-
-    private LocaleId locale;
 
     private BaseContributionStatistic translationStats;
 
     private BaseContributionStatistic reviewStats;
 
-    @JsonProperty("locale")
-    public LocaleId getLocale() {
-        return locale;
+    public LocaleStatistics() {
+        this(null, null);
+    }
+
+    public LocaleStatistics(
+            BaseContributionStatistic translationStats,
+            BaseContributionStatistic reviewStats) {
+        this.translationStats = translationStats;
+        this.reviewStats = reviewStats;
     }
 
     @JsonProperty("translation-stats")
@@ -48,39 +37,39 @@ public class LocaleStatistics {
     }
 
     public void setTranslationStats(
-        BaseContributionStatistic translationStats) {
+            BaseContributionStatistic translationStats) {
         this.translationStats = translationStats;
     }
 
     public void setReviewStats(
-        BaseContributionStatistic reviewStats) {
+            BaseContributionStatistic reviewStats) {
         this.reviewStats = reviewStats;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof LocaleStatistics)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof LocaleStatistics))
+            return false;
 
         LocaleStatistics that = (LocaleStatistics) o;
 
-        if (locale != null ? !locale.equals(that.locale) : that.locale != null)
+        if (translationStats != null
+                ? !translationStats.equals(that.translationStats)
+                : that.translationStats != null)
             return false;
-        if (translationStats != null ?
-            !translationStats.equals(that.translationStats) :
-            that.translationStats != null) return false;
-        return !(reviewStats != null ? !reviewStats.equals(that.reviewStats) :
-            that.reviewStats != null);
+        return !(reviewStats != null ? !reviewStats.equals(that.reviewStats)
+                : that.reviewStats != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = locale != null ? locale.hashCode() : 0;
-        result = 31 * result +
-            (translationStats != null ? translationStats.hashCode() : 0);
+        int result = translationStats != null ? translationStats.hashCode() : 0;
         result =
-            31 * result + (reviewStats != null ? reviewStats.hashCode() : 0);
+                31 * result
+                        + (reviewStats != null ? reviewStats.hashCode() : 0);
         return result;
     }
 }
