@@ -2,14 +2,11 @@ package org.zanata.rest.dto.stats.contribution;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.zanata.common.LocaleId;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
@@ -20,14 +17,13 @@ public class ContributionStatistics implements Serializable {
 
     private String username;
 
-    private Map<LocaleId, LocaleStatistics> contributions =
-            new HashMap<LocaleId, LocaleStatistics>();
+    private List<LocaleStatistics> contributions;
 
     public ContributionStatistics() {
     }
 
     public ContributionStatistics(String username,
-            Map<LocaleId, LocaleStatistics> contributions) {
+            List<LocaleStatistics> contributions) {
         this.username = username;
         this.contributions = contributions;
     }
@@ -42,15 +38,14 @@ public class ContributionStatistics implements Serializable {
     }
 
     @JsonProperty("contributions")
-    public Map<LocaleId, LocaleStatistics> getContributions() {
+    public List<LocaleStatistics> getContributions() {
         if (contributions == null) {
-            contributions = new HashMap<LocaleId, LocaleStatistics>();
+            contributions = new ArrayList<LocaleStatistics>();
         }
         return contributions;
     }
 
-    public void
-            setContributions(Map<LocaleId, LocaleStatistics> contributions) {
+    public void setContributions(List<LocaleStatistics> contributions) {
         this.contributions = contributions;
     }
 

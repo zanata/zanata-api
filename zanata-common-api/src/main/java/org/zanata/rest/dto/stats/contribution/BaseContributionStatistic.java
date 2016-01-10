@@ -4,10 +4,10 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.zanata.common.BaseTranslationCount;
 import org.zanata.common.ContentState;
 
 import java.io.Serializable;
+import javax.annotation.Nullable;
 
 /**
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
@@ -17,9 +17,25 @@ import java.io.Serializable;
 @JsonPropertyOrder({ "approved", "rejected", "translated", "needReview" })
 public class BaseContributionStatistic implements Serializable {
 
+    /**
+     * Use Wrapper type (Integer) instead of primitive (int) in properties to
+     * prevent displaying of irrelevant review stats field in
+     * {@link LocaleStatistics#reviewStats}
+     *
+     * {@link LocaleStatistics#translationStats}: all fields
+     * {@link LocaleStatistics#reviewStats}: approved and rejected
+     */
+
+    @Nullable
     private Integer approved;
+
+    @Nullable
     private Integer needReview;
+
+    @Nullable
     private Integer translated;
+
+    @Nullable
     private Integer rejected;
 
     public BaseContributionStatistic() {

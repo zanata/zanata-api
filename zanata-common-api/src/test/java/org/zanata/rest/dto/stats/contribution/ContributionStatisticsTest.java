@@ -43,11 +43,11 @@ public class ContributionStatisticsTest {
     private ContributionStatistics generateObject() {
         BaseContributionStatistic data =
                 new BaseContributionStatistic(40, 20, 10, 50);
-        LocaleStatistics localeStatistics = new LocaleStatistics(data, null);
+        LocaleStatistics localeStatistics = new LocaleStatistics(LocaleId.DE, data, null);
 
         ContributionStatistics statistics = new ContributionStatistics();
         statistics.setUsername("user1");
-        statistics.getContributions().put(LocaleId.DE, localeStatistics);
+        statistics.getContributions().add(localeStatistics);
 
         return statistics;
     }
