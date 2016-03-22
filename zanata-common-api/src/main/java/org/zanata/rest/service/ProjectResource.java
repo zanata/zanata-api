@@ -30,10 +30,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.enunciate.jaxrs.TypeHint;
-import org.codehaus.enunciate.modules.jersey.ExternallyManagedLifecycle;
 import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.Project;
+
+import com.webcohesion.enunciate.metadata.rs.TypeHint;
 
 /**
  * projectSlug: Project Identifier.
@@ -43,7 +43,7 @@ import org.zanata.rest.dto.Project;
  *
  */
 @Path(ProjectResource.SERVICE_PATH)
-@ExternallyManagedLifecycle
+//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public interface ProjectResource extends RestResource {
