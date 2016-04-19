@@ -19,7 +19,8 @@ before_install:
 install: /bin/true
 
 script: |
-  mvn test site \
+  mvn test \
+    com.webcohesion.enunciate:enunciate-maven-plugin:docs -pl zanata-common-api \
     --batch-mode \
     --settings .travis-settings.xml \
     -DstaticAnalysis

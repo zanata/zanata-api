@@ -20,7 +20,9 @@
   </scm>
 
   <properties>
-    <enunciate.version>1.27</enunciate.version>
+    <!-- Possible workaround from https://github.com/stoicflame/enunciate/wiki/Java-Compiler-Crash -->
+    <enunciate.disable.sourcepath>true</enunciate.disable.sourcepath>
+    <enunciate.version>2.3.0</enunciate.version>
     <jersey.version>1.19</jersey.version>
   </properties>
 
