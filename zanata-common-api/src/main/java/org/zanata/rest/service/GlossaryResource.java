@@ -68,7 +68,31 @@ public interface GlossaryResource extends RestResource {
     public static final int MAX_PAGE_SIZE = 1000;
 
     /**
+     * Qualified name for Global/default glossary
+     */
+    public static final String GLOBAL_QUALIFIED_NAME = "global/default";
+
+    /**
+     * Return default global glossary qualifiedName
+     *
+     * @return The following response status codes will be returned from this
+     *         operation:<br>
+     *         OK(200) - Response containing all Glossary entries in the system.
+     *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
+     *         the server while performing this operation.
+     */
+    @GET
+    @Path("/qualifiedName")
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_JSON })
+    @TypeHint(List.class)
+    public Response getQualifiedName();
+
+    /**
      * Return source locales available for all glossary entries
+     *
+     * @param qualifiedName
+     *          Qualified name of glossary, default to {@link #GLOBAL_QUALIFIED_NAME}
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
@@ -82,7 +106,8 @@ public interface GlossaryResource extends RestResource {
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
         MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @TypeHint(GlossaryInfo.class)
-    public Response getInfo();
+    public Response getInfo(
+            @DefaultValue(GLOBAL_QUALIFIED_NAME) @QueryParam("qualifiedName") String qualifiedName);
 
     /**
      * Returns Glossary entries for the given source and translation locale with
@@ -102,6 +127,8 @@ public interface GlossaryResource extends RestResource {
      * @param fields
      *            Fields to sort. Comma separated. e.g sort=desc,-part_of_speech
      *            See {@link org.zanata.common.GlossarySortField}
+     * @param qualifiedName
+     *            Qualified name of glossary, default to {@link #GLOBAL_QUALIFIED_NAME}
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - Response containing all Glossary entries for the given
@@ -121,24 +148,34 @@ public interface GlossaryResource extends RestResource {
             @DefaultValue("1") @QueryParam("page") int page,
             @DefaultValue("1000") @QueryParam("sizePerPage") int sizePerPage,
             @QueryParam("filter") String filter,
-            @QueryParam("sort") String fields);
+            @QueryParam("sort") String fields,
+            @DefaultValue(GLOBAL_QUALIFIED_NAME) @QueryParam("qualifiedName") String qualifiedName);
 
     /**
      * Download all glossary entries as file
      *
      * @param fileType - po or cvs (case insensitive). Default - csv
      * @param locales - optional comma separated list of languages required.
+     * @param qualifiedName
+     *            Qualified name of glossary, default to {@link #GLOBAL_QUALIFIED_NAME}
      */
     @GET
     @Path("/file")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response downloadFile(
         @DefaultValue("csv") @QueryParam("fileType") String fileType,
-        @QueryParam("locales") String locales);
+        @QueryParam("locales") String locales,
+        @DefaultValue(GLOBAL_QUALIFIED_NAME) @QueryParam("qualifiedName") String qualifiedName);
 
     /**
-     * Create or update glossary entry
+     * Create or update glossary entry.
+     * GlossaryTerm with locale different from {@param locale} will be ignored.
+     *
      * @param glossaryEntries The glossary entries to create/update
+     * @param qualifiedName
+     *            Qualified name of glossary, default to {@link #GLOBAL_QUALIFIED_NAME}
+     * @param locale
+     *            The translation locale to create/update
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
@@ -153,7 +190,9 @@ public interface GlossaryResource extends RestResource {
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/entries")
     @TypeHint(GlossaryResults.class)
-    public Response post(List<GlossaryEntry> glossaryEntries);
+    public Response post(List<GlossaryEntry> glossaryEntries,
+            @QueryParam("locale") String locale,
+            @DefaultValue(GLOBAL_QUALIFIED_NAME) @QueryParam("qualifiedName") String qualifiedName);
 
     /**
      * Upload glossary file (po, cvs)
@@ -179,8 +218,7 @@ public interface GlossaryResource extends RestResource {
      *
      * Delete glossary which given id.
      *
-     * @param id
-     *          id for source glossary term
+     * @param id id for source glossary term
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - If the glossary entry were successfully deleted.
@@ -198,6 +236,9 @@ public interface GlossaryResource extends RestResource {
     /**
      * Delete all glossary terms.
      *
+     * @param qualifiedName
+     *            Qualified name of glossary, default to {@link #GLOBAL_QUALIFIED_NAME}
+     *
      * @return The following response status codes will be returned from this
      *         operation:<br>
      *         OK(200) - If the glossary entries were successfully deleted.
@@ -207,6 +248,8 @@ public interface GlossaryResource extends RestResource {
      *         the server while performing this operation.
      */
     @DELETE
-    public Response deleteAllEntries();
+    @TypeHint(Integer.class)
+    public Response deleteAllEntries(
+            @DefaultValue(GLOBAL_QUALIFIED_NAME) @QueryParam("qualifiedName") String qualifiedName);
 
 }
