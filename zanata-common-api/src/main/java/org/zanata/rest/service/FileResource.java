@@ -145,7 +145,6 @@ public interface FileResource extends RestResource {
      *              translations with the contents of the uploaded file.
      * @param uploadForm The multi-part form body for the file or chunk.
      * @return A message with information about the upload operation.
-     * @return
      */
     @POST
     @Path(TRANSLATION_UPLOAD_TEMPLATE)
