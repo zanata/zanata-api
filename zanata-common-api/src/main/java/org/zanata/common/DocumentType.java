@@ -22,7 +22,6 @@ package org.zanata.common;
 
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSet;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -90,7 +89,7 @@ public enum DocumentType {
     }
 
     public static @Nullable DocumentType getByName(@Nullable String name) {
-        if (isBlank(name)) {
+        if (name == null || name.isEmpty()) {
             return null;
         }
         try {

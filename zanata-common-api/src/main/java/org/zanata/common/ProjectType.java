@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.zanata.common.DocumentType.*;
 
 @XmlType(name = "projectTypeType")
@@ -42,7 +41,7 @@ public enum ProjectType {
      */
     public static ProjectType getValueOf(String projectType) throws Exception {
         // TODO change all values to upper case and use ProjectType.valueOf(projectType)
-        if (isBlank(projectType)) {
+        if (projectType == null || projectType.isEmpty()) {
             throw new Exception("No project type specified");
         }
         for (ProjectType pt : ProjectType.values()) {
