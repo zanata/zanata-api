@@ -56,7 +56,7 @@ public enum DocumentType {
     OPEN_DOCUMENT_GRAPHICS("odg"), OPEN_DOCUMENT_GRAPHICS_FLAT("fodg"),
     OPEN_DOCUMENT_DATABASE("odb"), OPEN_DOCUMENT_FORMULA("odf"),
 
-    HTML("html", "htm"), IDML("idml"),
+    HTML("html", "htm"), IDML("idml"), JSON("json"),
 
     SUBTITLE("srt", "sbt", "sub", "vtt"),
     PROPERTIES("properties"), PROPERTIES_UTF8("properties"),
