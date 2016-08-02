@@ -111,6 +111,9 @@ public interface FileResource extends RestResource {
      * into smaller chunks for very large files. In this case, the first invocation
      * of this service will return an 'upload id' which needs to be used in
      * subsequent calls to tie all the uploaded chunks together.
+     * The file will only be processed when all chunks have been fully uploaded.
+     * With each uploaded chunk, the multipart message's 'last' parameter will
+     * indicate if it is the last expected chunk.
      *
      * @param projectSlug The project slug where to store the document.
      * @param iterationSlug The project version slug where to store the document.
@@ -136,6 +139,9 @@ public interface FileResource extends RestResource {
      * into smaller chunks for very large files. In this case, the first invocation
      * of this service will return an 'upload id' which needs to be used in
      * subsequent calls to tie all the uploaded chunks together.
+     * The file will only be processed when all chunks have been fully uploaded.
+     * With each uploaded chunk, the multipart message's 'last' parameter will
+     * indicate if it is the last expected chunk.
      *
      * @param projectSlug The project slug where to store the document.
      * @param iterationSlug The project version slug where to store the document.
