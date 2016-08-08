@@ -52,7 +52,7 @@ public interface FileResource extends RestResource {
     public static final String FILE_RESOURCE = SERVICE_PATH;
     public static final String ACCEPTED_TYPES_RESOURCE = "/accepted_types";
     public static final String ACCEPTED_TYPE_LIST_RESOURCE = "/accepted_document_types";
-    public static final String FILE_TYPE_INFO_RESOURCE = "/doc_type_info";
+    public static final String FILE_TYPE_INFO_RESOURCE = "/file_type_info";
     public static final String DOWNLOAD_TEMPLATE = "/download/{downloadId}";
     public static final String FILE_DOWNLOAD_TEMPLATE =
             "/translation/{projectSlug}/{iterationSlug}/{locale}/{fileType}";
