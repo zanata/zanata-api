@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>zanata-common-api</artifactId>
   <name>Zanata Common API</name>
+  <description>Zanata API definitions</description>
   <parent>
     <groupId>org.zanata</groupId>
     <artifactId>api</artifactId>
@@ -57,18 +58,9 @@
         </configuration>
       </plugin>
 
-      <!--
-         This config is used when running mvn enunciate:docs.
-         Docs will be generated in target/enunciate/build/docs/rest-api-docs.
-         See also the reporting configuration.
-       -->
       <plugin>
         <groupId>com.webcohesion.enunciate</groupId>
-        <artifactId>enunciate-maven-plugin</artifactId>
-        <version>${enunciate.version}</version>
-        <configuration>
-          <configFile>etc/enunciate/enunciate.xml</configFile>
-        </configuration>
+        <artifactId>enunciate-slim-maven-plugin</artifactId>
       </plugin>
 
       <plugin>
@@ -162,46 +154,44 @@
         </executions>
       </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
-          <groupId>
-            org.eclipse.m2e
-          </groupId>
-          <artifactId>
-            lifecycle-mapping
-          </artifactId>
-          <version>
-            1.0.0
-          </version>
+          <!--
+             Docs will be generated in target/site/rest-api-docs/.
+           -->
+          <groupId>com.webcohesion.enunciate</groupId>
+          <artifactId>enunciate-slim-maven-plugin</artifactId>
+          <version>${enunciate.version}</version>
           <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>
-                      org.codehaus.groovy.maven
-                    </groupId>
-                    <artifactId>
-                      gmaven-plugin
-                    </artifactId>
-                    <versionRange>
-                      [1.0,)
-                    </versionRange>
-                    <goals>
-                      <goal>
-                        execute
-                      </goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
+            <!-- Required, but apparently unused -->
+            <enunciateArtifactId>zanata-api</enunciateArtifactId>
+            <configFile>etc/enunciate/enunciate.xml</configFile>
+            <docsSubdir>rest-api-docs</docsSubdir>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.webcohesion.enunciate</groupId>
+              <artifactId>enunciate-docs</artifactId>
+              <version>${enunciate.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.webcohesion.enunciate</groupId>
+              <artifactId>enunciate-jackson1</artifactId>
+              <version>${enunciate.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.webcohesion.enunciate</groupId>
+              <artifactId>enunciate-jaxb</artifactId>
+              <version>${enunciate.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.webcohesion.enunciate</groupId>
+              <artifactId>enunciate-jaxrs</artifactId>
+              <version>${enunciate.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -209,28 +199,9 @@
 
   <reporting>
     <plugins>
-      <!--
-         This config is used when running mvn site.
-         Docs will be generated in target/site/rest-api-docs.
-         See also the plugin configuration.
-       -->
       <plugin>
         <groupId>com.webcohesion.enunciate</groupId>
-        <artifactId>enunciate-maven-plugin</artifactId>
-        <!-- apparently pluginManagement is ignored in reporting -->
-        <version>${enunciate.version}</version>
-        <configuration>
-          <configFile>etc/enunciate/enunciate.xml</configFile>
-
-          <!--
-          These two enunciate options are undocumented, but
-          their absence causes an error during site generation.
-           -->
-          <enunciateArtifactId>unused</enunciateArtifactId>
-          <moduleName>unused</moduleName>
-
-          <docsSubdir>rest-api-docs</docsSubdir>
-        </configuration>
+        <artifactId>enunciate-slim-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
