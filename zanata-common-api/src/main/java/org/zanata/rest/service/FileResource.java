@@ -43,7 +43,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  * Interface for file upload and download REST methods.
  */
 @Path(FileResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_OCTET_STREAM })
 @Consumes({ MediaType.APPLICATION_OCTET_STREAM })
 public interface FileResource extends RestResource {

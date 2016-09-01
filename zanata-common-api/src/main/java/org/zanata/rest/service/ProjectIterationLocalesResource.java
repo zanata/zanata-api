@@ -33,7 +33,6 @@ import org.zanata.rest.dto.LocaleDetails;
 import com.webcohesion.enunciate.metadata.rs.TypeHint;
 
 @Path(ProjectIterationLocalesResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public interface ProjectIterationLocalesResource extends RestResource {
     public static final String SERVICE_PATH = ProjectIterationResource.SERVICE_PATH

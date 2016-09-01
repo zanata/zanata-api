@@ -48,7 +48,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @Path(ProjectVersionResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public interface ProjectVersionResource extends RestResource {

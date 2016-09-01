@@ -45,7 +45,6 @@ import org.zanata.common.LocaleId;
  *         href="mailto:sflaniga@redhat.com">sflaniga@redhat.com</a>
  */
 @Path(TranslationMemoryResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML /* , "application/x-tmx" */})
 @Consumes({ MediaType.APPLICATION_XML /* , "application/x-tmx" */})
 public interface TranslationMemoryResource extends RestResource {

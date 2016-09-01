@@ -32,7 +32,6 @@ import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.VersionInfo;
 
 @Path(VersionResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public interface VersionResource extends RestResource {

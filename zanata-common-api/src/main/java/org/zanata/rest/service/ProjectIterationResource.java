@@ -46,7 +46,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  *
  */
 @Path(ProjectIterationResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Deprecated
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

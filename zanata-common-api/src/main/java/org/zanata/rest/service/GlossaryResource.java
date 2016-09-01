@@ -52,7 +52,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  *
  **/
 @Path(GlossaryResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON,
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
         MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,

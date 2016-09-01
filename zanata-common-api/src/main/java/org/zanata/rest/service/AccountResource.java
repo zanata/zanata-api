@@ -41,7 +41,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  *
  */
 @Path(AccountResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 public interface AccountResource extends RestResource {
     public static final String SERVICE_PATH =
             "/accounts/u/{username:[a-z\\d_]{3,20}}";

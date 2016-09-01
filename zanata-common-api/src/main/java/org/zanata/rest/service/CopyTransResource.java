@@ -37,7 +37,6 @@ import com.webcohesion.enunciate.metadata.rs.TypeHint;
  *         href="mailto:camunoz@redhat.com">camunoz@redhat.com</a>
  */
 @Path(CopyTransResource.SERVICE_PATH)
-//@ExternallyManagedLifecycle
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public interface CopyTransResource extends RestResource {
