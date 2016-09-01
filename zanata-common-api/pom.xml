@@ -20,29 +20,11 @@
   </scm>
 
   <properties>
-    <!-- Possible workaround from https://github.com/stoicflame/enunciate/wiki/Java-Compiler-Crash -->
-    <enunciate.disable.sourcepath>true</enunciate.disable.sourcepath>
     <enunciate.version>2.3.0</enunciate.version>
     <jersey.version>1.19</jersey.version>
   </properties>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.java</include>
-          <include>**/*.gwt.xml</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*.*</include>
-        </includes>
-      </resource>
-    </resources>
-
     <plugins>
 
       <plugin>
@@ -58,6 +40,22 @@
             </bannedDependencies>
           </rules>
         </configuration>
+      </plugin>
+
+      <!-- package up source files for GWT: http://stackoverflow.com/a/8731652/14379 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
