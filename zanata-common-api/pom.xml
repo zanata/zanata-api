@@ -20,7 +20,7 @@
   </scm>
 
   <properties>
-    <enunciate.version>2.3.0</enunciate.version>
+    <enunciate.version>2.6.0</enunciate.version>
     <jersey.version>1.19</jersey.version>
   </properties>
 
