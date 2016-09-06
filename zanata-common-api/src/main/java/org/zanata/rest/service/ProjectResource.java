@@ -117,7 +117,7 @@ public interface ProjectResource extends RestResource {
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
-     *         OK(200) - Response containing all Glossary entries in the system.
+     *         OK(200) - Project glossary qualified name used in the system.
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */

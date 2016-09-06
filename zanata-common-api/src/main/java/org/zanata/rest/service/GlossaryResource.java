@@ -43,6 +43,7 @@ import org.zanata.rest.MediaTypes;
 import org.zanata.rest.dto.GlossaryEntry;
 import org.zanata.rest.dto.GlossaryInfo;
 import org.zanata.rest.dto.GlossaryResults;
+import org.zanata.rest.dto.QualifiedName;
 import org.zanata.rest.dto.ResultList;
 
 /**
@@ -77,15 +78,17 @@ public interface GlossaryResource extends RestResource {
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
-     *         OK(200) - Response containing all Glossary entries in the system.
+     *         OK(200) - List of Global glossary qualified names used in the system.
+     *                   e.g {@link #GLOBAL_QUALIFIED_NAME}
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */
     @GET
     @Path("/qualifiedName")
-    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
-        MediaType.APPLICATION_JSON })
-    @TypeHint(List.class)
+    @Produces({ MediaTypes.APPLICATION_ZANATA_GLOSSARY_XML,
+        MediaTypes.APPLICATION_ZANATA_GLOSSARY_JSON,
+        MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @TypeHint(QualifiedName.class)
     public Response getQualifiedName();
 
     /**
@@ -96,7 +99,7 @@ public interface GlossaryResource extends RestResource {
      *
      * @return The following response status codes will be returned from this
      *         operation:<br>
-     *         OK(200) - Response containing all Glossary entries in the system.
+     *         OK(200) - Global glossary info in the system.
      *         INTERNAL SERVER ERROR(500) - If there is an unexpected error in
      *         the server while performing this operation.
      */

@@ -11,6 +11,10 @@ import org.zanata.common.Namespaces;
 import org.zanata.rest.MediaTypes;
 
 /**
+ * Object Glossary qualified name. Usage:
+ * {@link GlossaryEntry#getQualifiedName()}
+ * {@link org.zanata.rest.service.GlossaryResource}
+ *
  * @author Alex Eng <a href="mailto:aeng@redhat.com">aeng@redhat.com</a>
  */
 @XmlRootElement(name = "qualifiedName")
