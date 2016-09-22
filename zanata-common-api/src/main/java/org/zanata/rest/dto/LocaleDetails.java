@@ -39,22 +39,32 @@ import org.zanata.common.Namespaces;
 @XmlType(name = "localeDetailsType")
 @XmlRootElement(name = "localeDetails")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"localeId", "displayName", "alias"})
+@JsonPropertyOrder({"localeId", "displayName", "alias", "nativeName", "enabled", "enabledByDefault", "membersCount"})
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class LocaleDetails implements Serializable {
 
     private LocaleId localeId;
     private String displayName;
     private String alias;
+    private String nativeName;
+    private boolean enabled;
+    private boolean enabledByDefault;
+    private int membersCount;
 
     // TODO check if no args constructor is needed
     public LocaleDetails() {
     }
 
-    public LocaleDetails(LocaleId localeId, String displayName, String alias) {
+    public LocaleDetails(LocaleId localeId, String displayName, String alias,
+        String nativeName, boolean enabled, boolean enabledByDefault,
+        int membersCount) {
         this.localeId = localeId;
         this.displayName = displayName;
         this.alias = alias;
+        this.nativeName = nativeName;
+        this.enabled = enabled;
+        this.enabledByDefault = enabledByDefault;
+        this.membersCount = membersCount;
     }
 
     @XmlAttribute(name = "localeId", required = true)
@@ -87,44 +97,77 @@ public class LocaleDetails implements Serializable {
       this.alias = alias;
     }
 
+    public String getNativeName() {
+        return nativeName;
+    }
+
+    public void setNativeName(String nativeName) {
+        this.nativeName = nativeName;
+    }
+
+    @XmlAttribute(name = "enabled", required = false)
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @XmlAttribute(name = "enabledByDefault", required = false)
+    public boolean isEnabledByDefault() {
+        return enabledByDefault;
+    }
+
+    public void setEnabledByDefault(boolean enabledByDefault) {
+        this.enabledByDefault = enabledByDefault;
+    }
+
+    @XmlAttribute(name = "membersCount", required = false)
+    public int getMembersCount() {
+        return membersCount;
+    }
+
+    public void setMembersCount(int membersCount) {
+        this.membersCount = membersCount;
+    }
+
     @Override
     public String toString() {
         return DTOUtil.toXML(this);
     }
 
     @Override
-    public int hashCode() {
-        String composite = localeId.toString() + displayName + alias;
-        return composite.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LocaleDetails that = (LocaleDetails) o;
+
+        if (enabled != that.enabled) return false;
+        if (enabledByDefault != that.enabledByDefault) return false;
+        if (membersCount != that.membersCount) return false;
+        if (localeId != null ? !localeId.equals(that.localeId) :
+            that.localeId != null) return false;
+        if (displayName != null ? !displayName.equals(that.displayName) :
+            that.displayName != null) return false;
+        if (alias != null ? !alias.equals(that.alias) : that.alias != null)
+            return false;
+        return nativeName != null ? nativeName.equals(that.nativeName) :
+            that.nativeName == null;
+
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof LocaleDetails)) {
-            return false;
-        }
-        LocaleDetails other = (LocaleDetails) obj;
-        if (!localeId.equals(other.localeId)) {
-          return false;
-        }
-        // TODO is displayName nullable?
-        if (!displayName.equals(other.displayName)) {
-          return false;
-        }
-        if (alias == null) {
-          if (other.alias != null) {
-            return false;
-          }
-        } else if (!alias.equals(other.alias)) {
-          return false;
-        }
-        return true;
+    public int hashCode() {
+        int result = localeId != null ? localeId.hashCode() : 0;
+        result =
+            31 * result + (displayName != null ? displayName.hashCode() : 0);
+        result = 31 * result + (alias != null ? alias.hashCode() : 0);
+        result = 31 * result + (nativeName != null ? nativeName.hashCode() : 0);
+        result = 31 * result + (enabled ? 1 : 0);
+        result = 31 * result + (enabledByDefault ? 1 : 0);
+        result = 31 * result + membersCount;
+        return result;
     }
-
 }
